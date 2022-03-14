@@ -1,0 +1,1891 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- saved from url=(0063)https://digilander.libero.it/robang/rubrica/serial.htm#CONTENTS -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><script src="./Serial Programming Guide for POSIX Operating Systems_files/iolHeaderSitesCallback"></script><script src="./Serial Programming Guide for POSIX Operating Systems_files/all_blogs.php"></script><script src="./Serial Programming Guide for POSIX Operating Systems_files/iolViralbarSitesCallback"></script><script src="./Serial Programming Guide for POSIX Operating Systems_files/all_blogs(1).php"></script><script async="" data-jsonpid="" src="./Serial Programming Guide for POSIX Operating Systems_files/nlsSDK600.bundle.min.js.&#19979;&#36733;"></script><script src="./Serial Programming Guide for POSIX Operating Systems_files/digilander.libero.it"></script><script async="" src="./Serial Programming Guide for POSIX Operating Systems_files/config250.js.&#19979;&#36733;"></script><script type="text/javascript" async="" src="./Serial Programming Guide for POSIX Operating Systems_files/analytics.js.&#19979;&#36733;"></script>
+<title>Serial Programming Guide for POSIX Operating Systems</title>
+<meta name="AUTHOR" content="Michael R. Sweet">
+<meta name="COPYRIGHT" content="Copyright 1994-1999, All Rights Reserved.">
+<meta name="DOCNUMBER" content="5th Edition">
+
+<style>
+BODY { font-family: serif; font-size: 11.0pt }
+H1 { font-family: sans-serif; font-size: 20.0pt }
+H2 { font-family: sans-serif; font-size: 20.0pt }
+H3 { font-family: sans-serif; font-size: 20.0pt }
+H4 { font-family: sans-serif; font-size: 20.0pt }
+H5 { font-family: sans-serif; font-size: 20.0pt }
+H6 { font-family: sans-serif; font-size: 20.0pt }
+SUB { font-size: 8.0pt }
+SUP { font-size: 8.0pt }
+PRE { font-size: 9.0pt }
+</style>
+<script type="text/javascript" async="" src="./Serial Programming Guide for POSIX Operating Systems_files/js"></script><script type="text/javascript" async="" src="./Serial Programming Guide for POSIX Operating Systems_files/analytics.js.&#19979;&#36733;"></script><script type="text/javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/jquery-1.4.2.min.js.&#19979;&#36733;"></script><link rel="stylesheet" type="text/css" href="./Serial Programming Guide for POSIX Operating Systems_files/plugin.css"></head>
+<body bgcolor="#C0C0C0" text="black"><div class="vb-cnt">    <div class="vb-hdr"><h1 class="vb-hdr__lg">        <a href="https://digiland.libero.it/" class="vb-hdr__lg-dg">            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85.5 14.9" class="vb-hdr__lg__icn">                <path fill="#064A8A" d="M4.1 0.3c4.2 0 6.9 1.9 6.9 7.2s-2.7 7.2-6.9 7.2H1.2c-0.7 0-1.2-0.6-1.2-1.2V1.5c0-0.7 0.6-1.2 1.2-1.2H4.1zM2.5 12.4h1.6c2.7 0 4.4-1.2 4.4-4.9s-1.6-5-4.4-5H2.5V12.4z"></path>                <path fill="#064A8A" d="M15.5 13.6c0 0.7-0.6 1.2-1.2 1.2S13 14.3 13 13.6l0 0V1.4c0-0.7 0.6-1.2 1.2-1.2s1.2 0.6 1.2 1.2V13.6z"></path>                <path fill="#064A8A" d="M27.7 9.1h-2.9c-0.6 0-1.1-0.5-1.1-1.1 0-0.6 0.5-1.1 1.1-1.1h4.1c0.6 0 1.1 0.5 1.2 1.1v3.4c0 0.4-0.1 0.8-0.4 1.1 -1.4 1.5-3.5 2.4-5.6 2.3 -4.2 0-6.7-2.2-6.7-7.5 0-5.1 2.4-7.5 6.7-7.5 2-0.1 3.9 0.7 5.1 2.3 0.1 0.2 0.2 0.4 0.2 0.7 0 0.6-0.5 1.1-1.2 1.1 -0.3 0-0.7-0.2-0.9-0.4 -0.8-1-2.1-1.6-3.3-1.5 -2.8 0-4.1 1.7-4.1 5.3 0 3.7 1.3 5.2 4.1 5.2 1.3 0.1 2.6-0.3 3.5-1.2L27.7 9.1z"></path>                <path fill="#064A8A" d="M34.9 13.6c0 0.7-0.6 1.2-1.2 1.2 -0.7 0-1.2-0.6-1.2-1.2l0 0V1.4c0-0.7 0.6-1.2 1.2-1.2 0.7 0 1.2 0.6 1.2 1.2V13.6z"></path>                <path fill="#064A8A" d="M45 12.3c0.6 0 1.2 0.5 1.2 1.1 0 0 0 0 0 0.1 0 0.6-0.5 1.1-1.1 1.2 0 0-0.1 0-0.1 0h-6.3c-0.6 0-1.2-0.5-1.2-1.1 0 0 0 0 0-0.1V1.4c0-0.7 0.6-1.2 1.2-1.2 0.7 0 1.2 0.6 1.2 1.2v11L45 12.3z"></path>                <path fill="#064A8A" d="M50.7 10.9L49.4 14c-0.2 0.5-0.6 0.8-1.2 0.8 -0.7 0-1.2-0.5-1.2-1.2 0-0.2 0-0.3 0.1-0.4l5-12.3c0.2-0.6 1-0.9 1.6-0.7 0.3 0.1 0.6 0.4 0.7 0.7l5 12.3c0.1 0.1 0.1 0.3 0.1 0.4 0 0.7-0.5 1.2-1.2 1.2 -0.5 0-1-0.3-1.2-0.8l-1.3-3.1H50.7zM53.3 4.2l-1.7 4.5h3.5L53.3 4.2z"></path>                <path fill="#064A8A" d="M72.1 1.3v12.3c0 0.7-0.5 1.2-1.2 1.2 -0.4 0-0.8-0.2-1-0.5l-6.3-9.1v8.4c0 0.7-0.5 1.2-1.2 1.2s-1.2-0.5-1.2-1.2c0 0 0 0 0-0.1V1.3c0-0.7 0.5-1.2 1.2-1.2 0.4 0 0.8 0.2 1 0.5l6.3 9.1V1.3c0-0.7 0.5-1.2 1.2-1.2C71.5 0.1 72.1 0.7 72.1 1.3L72.1 1.3z"></path>                <path fill="#064A8A" d="M78.6 0.3c4.2 0 6.9 1.9 6.9 7.2s-2.7 7.2-6.9 7.2h-2.9c-0.7 0-1.2-0.6-1.2-1.2V1.5c0-0.7 0.6-1.2 1.2-1.2H78.6zM77 12.4h1.6c2.7 0 4.4-1.2 4.4-4.9s-1.6-5-4.4-5H77V12.4z"></path>            </svg>            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="vb-hdr__lg__icn">                <path d="M9.1 18.6l4.6-13.7c0.1-0.2 0.3-0.4 0.5-0.4 0.2 0 0.3 0.1 0.4 0.2 0.1 0.1 0.2 0.3 0.2 0.4 0 0.1 0 0.2-0.1 0.3l-4.6 13.7c-0.1 0.2-0.3 0.4-0.5 0.4 -0.3 0-0.6-0.2-0.6-0.5 0 0 0 0 0 0C9.1 18.8 9.1 18.7 9.1 18.6z" fill="#878787"></path>            </svg>        </a>                    <a href="https://digiland.libero.it/siti" class="vb-hdr__lg-prf">                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 32" class="vb-hdr__lg__icn vb-hdr__lg__icn--siti">                    <path d="M81.5 17.2c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7C88.6 20.3 85.5 17.2 81.5 17.2 81.6 17.2 81.6 17.2 81.5 17.2z" fill="#82AD2F"></path>                    <path d="M11.8 4.7c-3.8 0-5.2 1.8-5.2 3.6 0 5.9 16.5 3.2 16.5 14.5 0 5.5-3.9 9-11.4 9 -5.4 0-9.7-2.7-11.5-5.5 -0.7-1.1-0.4-2.6 0.8-3.4 0.4-0.2 0.8-0.4 1.2-0.4 0.8 0 1.5 0.4 2 1 1.9 2.1 4.6 3.4 7.4 3.4 4.1 0 6.1-1.4 6.1-4.2 0-6.6-16.5-3.6-16.5-14.5C1.4 3.8 4.6 0 11.8 0c4.5 0 8.5 1.7 10.3 4.3 0.3 0.4 0.4 0.9 0.5 1.4 0 1.3-1.1 2.4-2.4 2.4 -0.8-0.1-1.4-0.4-1.9-1C16.4 5.5 14.2 4.7 11.8 4.7zM32.6 28.9c0 1.5-1.2 2.6-2.6 2.6s-2.6-1.2-2.6-2.6v-26c0-1.5 1.2-2.6 2.6-2.6s2.6 1.2 2.6 2.6V28.9zM50.8 5.3v23.6c0 1.5-1.1 2.7-2.6 2.7 -1.5 0-2.7-1.1-2.7-2.6 0 0 0-0.1 0-0.1V5.3h-6.9c-1.3 0-2.3-1-2.4-2.3s1-2.3 2.3-2.4c0 0 0.1 0 0.1 0h19.1C59 0.7 60 1.7 60 3c0 1.2-1 2.2-2.3 2.3H50.8zM68.9 28.9c0 1.5-1.2 2.6-2.6 2.6 -1.5 0-2.6-1.2-2.6-2.6v-26c0-1.5 1.2-2.6 2.6-2.6 1.5 0 2.6 1.2 2.6 2.6V28.9z" fill="#014A87"></path>                </svg>            </a>            </h1>    <a href="https://www.libero.it/" class="vb-hdr__title vb__ttl vb__ttl--xSmall vb-lnk-b">Libero</a>    <!--i: buca search 768-->    <div class="vb-form vb-form--nmb">        <form class="vb-form__int" action="https://digiland.libero.it/ricerca">                            <input type="search" name="qs" autocomplete="off" class="vb-form__input" placeholder="Cerca in Digiland">                        <button type="submit" value="Submit">                <span class="vb-form__button">                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" class="vb-form__icon">                        <path d="M30.8 29l-5.5-5.3c1.1-1.3 1.7-3 1.7-4.7 -0.1-4.3-3.7-7.7-8-7.6 -4.3-0.1-7.9 3.3-8 7.6 0.1 4.3 3.7 7.7 8 7.6 1.8 0 3.5-0.6 4.9-1.6l5.5 5.3c0.2 0.2 0.5 0.2 0.7 0l0 0 0.7-0.7C31 29.5 31 29.2 30.8 29 30.8 29.1 30.8 29 30.8 29L30.8 29zM19 24.8c-3.2 0.1-5.9-2.5-6-5.7 0.1-3.2 2.7-5.8 6-5.7 3.2-0.1 5.9 2.5 6 5.7C24.9 22.3 22.2 24.9 19 24.8z" fill="#104B87"></path>                    </svg>                </span>            </button>        </form>    </div>    <!--f: buca search 768-->    <!--i: menu sx solo mobile-->    <div class="vb-sx-mob">        <span class="vb-sx-mob__btn">            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" class="vb-sx-mob__icn">                <path d="M10.9 15c0-0.6 0.4-1 1-1h18.3c0.6 0 1 0.4 1 1s-0.4 1-1 1H11.9C11.3 16 10.9 15.6 10.9 15zM30.1 20H11.9c-0.6 0-1 0.4-1 1s0.4 1 1 1h18.3c0.6 0 1-0.4 1-1S30.7 20 30.1 20zM30.1 26H11.9c-0.6 0-1 0.4-1 1s0.4 1 1 1h18.3c0.6 0 1-0.4 1-1S30.7 26 30.1 26z" fill="#003C79"></path>            </svg>            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" class="vb-sx-mob__icn vb-sx-mob__icn--close">                <path d="M12.5 28.1l7.1-7.1 -7.1-7.1 1.4-1.4 7.1 7.1 7.1-7.1 1.4 1.4L22.4 21l7.1 7.1 -1.4 1.4L21 22.4l-7.1 7.1L12.5 28.1z" fill="#064A8A"></path>            </svg>        </span>        <div class="vb-form">            <form class="vb-form__int" action="https://digiland.libero.it/ricerca">                                    <input type="search" name="qs" autocomplete="off" class="vb-form__input" placeholder="Cerca in Digiland">                                <button type="submit" value="Submit">                    <span class="vb-form__button">                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" class="vb-form__icon">                            <path d="M30.8 29l-5.5-5.3c1.1-1.3 1.7-3 1.7-4.7 -0.1-4.3-3.7-7.7-8-7.6 -4.3-0.1-7.9 3.3-8 7.6 0.1 4.3 3.7 7.7 8 7.6 1.8 0 3.5-0.6 4.9-1.6l5.5 5.3c0.2 0.2 0.5 0.2 0.7 0l0 0 0.7-0.7C31 29.5 31 29.2 30.8 29 30.8 29.1 30.8 29 30.8 29L30.8 29zM19 24.8c-3.2 0.1-5.9-2.5-6-5.7 0.1-3.2 2.7-5.8 6-5.7 3.2-0.1 5.9 2.5 6 5.7C24.9 22.3 22.2 24.9 19 24.8z" fill="#104B87"></path>                        </svg>                    </span>                </button>             </form>        </div>        <div class="vb-sx-mob__lnk">            <!--i: mobile-->                        <ul class="vb-sx-mob__lnk__el vb-sx-mob__lnk__el--w vb__ttl vb__ttl--medium">                <li class="vb-sx-mob__lnk__it vb-sx-mob__lnk__it--srv"><a href="https://www.libero.it/" class="vb-lnk-b">Torna a Libero</a></li>                <li class="vb-sx-mob__lnk__it vb-sx-mob__lnk__it--srv"><a href="https://digiland.libero.it/" class="vb-lnk-b">Torna a Digiland</a></li>                <li class="vb-sx-mob__lnk__it vb-sx-mob__lnk__it--srv"><a href="https://digiland.libero.it/profili" class="vb-lnk-b">PROFILI</a></li>                <li class="vb-sx-mob__lnk__it vb-sx-mob__lnk__it--srv"><a href="https://blog.libero.it/" class="vb-lnk-b">BLOG</a></li>                <li class="vb-sx-mob__lnk__it vb-sx-mob__lnk__it--srv"><a href="https://chat.libero.it/" class="vb-lnk-b">CHAT</a></li>                <li class="vb-sx-mob__lnk__it vb-sx-mob__lnk__it--srv"><a href="https://cupido.it/" class="vb-lnk-b">CUPIDO</a></li>                <li class="vb-sx-mob__lnk__it vb-sx-mob__lnk__it--srv"><a href="https://digiland.libero.it/siti" class="vb-lnk-b">SITI</a></li>                <li class="vb-sx-mob__lnk__it vb-sx-mob__lnk__it--srv"><a href="https://digiland.libero.it/profili/trovamici" class="vb-lnk-b">TROVAMICI</a></li>            </ul>        </div>         <!--f: mobile-->    </div>    <!--f: menu sx solo mobile-->             </div>            <!--i: navigazione da 768 in su -->    <div class="vb-bar">        <div class="vb-bar__info">            <a href="https://digiland.libero.it/profili/scheda/robangrubricaserial.htm/dettaglio">                <span class="vb-bar__img">                    <!-- stefano  -->                                            <img src="./Serial Programming Guide for POSIX Operating Systems_files/blk.png" onerror="this.onerror=null;this.src=&#39;https://digiland.libero.it/img/avatar/blk.png&#39;;">                                    </span>                <span class="vb-bar__nick vb-bar__ttl vb-bar__ttl--large">robangrubricaserial.htm</span>            </a>        </div>        <!--             navigation            $fromUrl:https://digilander.libero.it/robang/rubrica/serial.htm#             $fromDomain:digilander.libero.it#            $fromSection:#                       -->                    <!-- external bar -->            <div class="vb-bar__shr">                <svg class="vb-bar__shr__icn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">                    <path d="M12 9.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3 -2.3-1-2.3-2.3l0 0C9.7 10.7 10.7 9.7 12 9.7 12 9.7 12 9.7 12 9.7zM9.7 6.3c0 1.3 1 2.3 2.3 2.3s2.3-1 2.3-2.3S13.3 4 12 4l0 0C10.7 4 9.7 5 9.7 6.3 9.7 6.3 9.7 6.3 9.7 6.3zM9.7 17.7c0 1.3 1 2.3 2.3 2.3s2.3-1 2.3-2.3c0-1.3-1-2.3-2.3-2.3 0 0 0 0 0 0C10.7 15.4 9.7 16.4 9.7 17.7 9.7 17.7 9.7 17.7 9.7 17.7z" fill="#1392E0"></path>                </svg>                <ul class="vb-bar__shr__el">                                                    <li class="vb-bar__shr__it">                                    <a href="http://blog.libero.it/segnalaabusodigilander.php?op=s&amp;da=https%3A//digilander.libero.it/robangrubricaserial.htm" class="vb-lnk vb-lnk-r vb__txt--small" target="segnabusi" onclick="window.open(&#39;http://blog.libero.it/segnalaabusodigilander.php?op=s&amp;da=https%3A//digilander.libero.it/robangrubricaserial.htm&#39;,&#39;segnabusi&#39;,&#39;width=480,height=620,toolbar=no,location=no,status=yes,menubar=no&#39;); return false;">                                            Segnala abuso                                    </a>                                </li>                                        <!-- li class="vb-bar__shr__it">                        <span class=" vb__txt--xSmall">Condividi</span>                        <div class="vb-bar__shr-sub__el">                            <a href="#" class="vb-bar__shr-sub__it">                                <svg class="vb-bar__shr-sub__icn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">                                    <path stroke="#168FF5" d="M24 12.1c0-6.6-5.4-12-12.1-11.9C5.3 0.2 0 5.6 0 12.2 0 18.1 4.3 23.1 10.1 24v-8.4h-3v-3.5h3V9.4c0-3 1.8-4.7 4.5-4.7 0.9 0 1.8 0.1 2.7 0.2v3h-1.5c-1-0.1-1.8 0.6-1.9 1.5 0 0.1 0 0.3 0 0.4v2.3h3.3l-0.5 3.5h-2.8V24C19.7 23.1 24 18 24 12.1z" fill="#168FF5" ></path>                                </svg>                            </a>                            <a href="#" class="vb-bar__shr-sub__it">                                <svg class="vb-bar__shr-sub__icn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">                                    <path stroke="#3E95E0"  d="M12 0c6.6 0 12 5.4 12 12s-5.4 12-12 12S0 18.6 0 12 5.4 0 12 0z" fill="#3E95E0"></path>                                    <path d="M18.4 9.5c0 0.1 0 0.2 0 0.4 0 4.5-3.6 8.1-8.1 8.2 0 0-0.1 0-0.1 0 -1.6 0-3.1-0.4-4.4-1.3 0.2 0 0.5 0 0.7 0 1.3 0 2.5-0.4 3.6-1.2 -1.2 0-2.3-0.8-2.7-2 0.2 0 0.4 0 0.5 0 0.3 0 0.5 0 0.8-0.1 -1.3-0.3-2.3-1.4-2.3-2.8v0C6.8 10.9 7.2 11 7.7 11 6.4 10.2 6 8.5 6.8 7.2c1.5 1.8 3.6 2.9 5.9 3 0-0.2-0.1-0.4-0.1-0.7 0-1.6 1.3-2.9 2.9-2.9 0.8 0 1.5 0.3 2.1 0.9 0.6-0.1 1.3-0.4 1.8-0.7 -0.2 0.7-0.7 1.2-1.3 1.6 0.6-0.1 1.1-0.2 1.6-0.4C19.4 8.6 18.9 9.1 18.4 9.5z" fill="#FFF"></path>                                </svg>                            </a>                            <a href="#" class="vb-bar__shr-sub__it">                                <svg class="vb-bar__shr-sub__icn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">                                    <path stroke="#EC3475" d="M12 0c6.6 0 12 5.4 12 12s-5.4 12-12 12S0 18.6 0 12 5.4 0 12 0z" fill="#EC3475" ></path>                                    <path d="M12 8.4c-2 0-3.6 1.6-3.6 3.6s1.6 3.6 3.6 3.6 3.6-1.6 3.6-3.6C15.6 10 14 8.4 12 8.4 12 8.4 12 8.4 12 8.4zM12 14.3c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3c1.3 0 2.3 1 2.3 2.3C14.3 13.3 13.3 14.3 12 14.3L12 14.3zM16.6 8.3c0 0.5-0.4 0.8-0.8 0.8s-0.8-0.4-0.8-0.8 0.4-0.8 0.8-0.8C16.2 7.4 16.6 7.8 16.6 8.3 16.6 8.3 16.6 8.3 16.6 8.3zM19 9.1C19 8 18.6 7 17.8 6.2 17 5.4 16 5 14.9 5 13.7 5 10.3 5 9.1 5 8 5 7 5.4 6.2 6.2 5.4 7 5 8 5 9.1 5 10.3 5 13.7 5 14.9 5 16 5.4 17 6.2 17.8 7 18.6 8 19 9.1 18.9c1.2 0.1 4.6 0.1 5.8 0 1.1 0 2.1-0.4 2.9-1.1 0.7-0.8 1.2-1.8 1.1-2.9C19 13.7 19 10.3 19 9.1L19 9.1zM17.5 16.1c-0.2 0.6-0.7 1.1-1.3 1.3 -1.4 0.3-2.7 0.4-4.1 0.3 -1.4 0.1-2.8 0-4.1-0.3 -0.6-0.2-1.1-0.7-1.3-1.3 -0.3-1.4-0.4-2.7-0.3-4.1 -0.1-1.4 0-2.8 0.3-4.1 0.2-0.6 0.7-1.1 1.3-1.3 1.4-0.3 2.7-0.4 4.1-0.3 1.4-0.1 2.8 0 4.1 0.3 0.6 0.2 1.1 0.7 1.3 1.3 0.3 1.4 0.4 2.7 0.3 4.1C17.8 13.4 17.7 14.8 17.5 16.1L17.5 16.1z" fill="#FFF" ></path>                                </svg>                            </a>                            <a href="#" class="vb-bar__shr-sub__it">                                <svg class="vb-bar__shr-sub__icn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">                                    <circle cx="12" cy="12" r="12" fill="#FFF" stroke="#54A9EB"></circle>                                    <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12c3.5 0 6.8-1.5 9.1-4.2 1.9-2.2 2.9-5 2.9-7.8C24 5.4 18.6 0 12 0zM17.9 8.2l-2 9.3c-0.1 0.7-0.5 0.8-1.1 0.5l-3-2.2 -1.4 1.4c-0.1 0.2-0.4 0.3-0.6 0.3l0.2-3.1 5.6-5c0.2-0.2-0.1-0.3-0.4-0.1l-6.9 4.3 -3-0.9c-0.6-0.2-0.7-0.6 0.1-1l11.6-4.5C17.6 7.1 18.1 7.4 17.9 8.2z" fill="#54A9EB" ></path>                                </svg>                            </a>                        </div>                    </li -->                 </ul>            </div>                <div class="vb-bar__tab">            <ul class="vb-bar__tab__el">                <li class="vb-bar__tab__it">                    <a id="vb-bar__link__profili" href="https://digiland.libero.it/profili/scheda/robangrubricaserial.htm/dettaglio" class="vb-bar__tab-lnk">PROFILO</a>                </li>                <li class="vb-bar__tab__it">                                        <a href="https://digilander.libero.it/robang/rubrica/serial.htm#" id="vb-bar__link__blog" class="vb-bar__tab-lnk inactive">BLOG</a>                </li>                <li class="vb-bar__tab__it">                                        <a href="https://digilander.libero.it/robang/rubrica/serial.htm#" id="vb-bar__link__sito" class="active vb-bar__tab-lnk">SITO</a>                </li>            </ul>        </div>                <!---i: bottone scopri  --->                <button onclick="javascript:location.href=&#39;https://digiland.libero.it/profili/scopriSito&#39;" class="btsp vb__btsp">            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="btsp__icn">                <path d="M7.3 18.5l6.5-6.5L7.3 5.5c-0.7-0.7-0.7-1.7 0-2.4s1.7-0.7 2.4 0l7.7 7.7c0.7 0.7 0.7 1.7 0 2.4l-7.7 7.7c-0.7 0.7-1.7 0.7-2.4 0C6.6 20.2 6.6 19.1 7.3 18.5z" fill="#FFF"></path>            </svg>            SCOPRI<br>SITI        </button>        <!---f: bottone scopri  --->    </div>    <!--f: navigazione da 768 in su-->  </div><style></style><iframe src="./Serial Programming Guide for POSIX Operating Systems_files/storageframe.html" id="LOCSTORAGE" scrolling="no" name="empty" hidden="true" style="width: 1px; height: 1px; position: absolute; top: -7px; left: -7px; border: 0px;"></iframe><!-- bsl1 !! 2-->
+
+    <!-- iubenda -->
+    <script type="text/javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/iub_conf_libero.js.&#19979;&#36733;"></script>
+    <script type="text/javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/stub-v2.js.&#19979;&#36733;"></script><iframe name="__tcfapiLocator" style="display: none;" src="./Serial Programming Guide for POSIX Operating Systems_files/saved_resource.html"></iframe>
+    <script type="text/javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/iubenda_cs.js.&#19979;&#36733;" charset="UTF-8" async=""></script>
+    <!-- /iubenda -->
+    <!-- IOL/Iubenda -->
+    <script src="./Serial Programming Guide for POSIX Operating Systems_files/qciol.min.js.&#19979;&#36733;" async="true"></script>
+	<!-- /IOL/Iubenda -->
+	
+<script src="./Serial Programming Guide for POSIX Operating Systems_files/barra_n04_siti.js.&#19979;&#36733;" type="text/javascript" language="Javascript"></script>
+
+<script language="Javascript" type="text/javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/hf.js.&#19979;&#36733;"></script>
+<script language="JavaScript" type="text/javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/clickserver.js.&#19979;&#36733;"></script>
+<script language="Javascript" type="text/javascript">
+<!--
+		Libero.Stash.HF = { version: '8.3.04', cksrv: { a: 'HF8.3.04', b: 'digilander' } };
+//-->
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./Serial Programming Guide for POSIX Operating Systems_files/js(1)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-77960099-4');
+</script>
+
+<!--[if IE]>
+	<style>
+	#lh_header_top #lh_other, #lh_header_top #lh_options {
+		top: 23px;
+	}
+	#lh_header_top #lh_nicknames {
+		top: 22px;
+	}
+	#lh_header_top #lh_area04 a.lh_nicknames_arrow {
+		/*height: 16px;*/
+	}
+	#lh_header #lh_area03 .lh_pos { 
+		padding-top: 4px;
+	}
+	#lh_header #lh_area03 table td input {
+		margin-top: -1px !important;
+		margin-top: -2px;
+	}
+	#lh_header #lh_close_me { 
+		margin-top: 0;
+	}
+	#lh_header.lite, #lh_header.liquid, #lh_header.liquid800, #lf_footer.lite, #lf_footer.liquid {
+		width: expression(document.body.clientWidth < 800 ? '760px': 'auto' );
+	}
+	#lh_header #lh_area02.lite {
+		width: expression(document.body.clientWidth < 1024 ? '636px': 'auto' );
+	}
+	#l_maincont {
+		width: expression(document.body.clientWidth < 800 ? '760px': 'auto' );
+	}
+	#lh_header_top.lh_liquid {
+		width: expression(document.body.clientWidth < 800 ? '760px': 'auto' );
+	}
+	#lh_header_top { 
+		height: 33px;
+	}
+	#lh_header_top #lh_area05 a.lh_on, #lh_header_top #lh_area04 a.lh_on {
+		height: 22px;
+	}
+	#lh_header_top #lh_area04 a.lh_options { 
+		margin-left: -5px;
+	}
+	#lh_header_top {
+		margin-top: 0px;
+	}	
+	</style>
+<![endif]-->
+<!--[if lte IE 7]>
+	<style>
+	#lh_header_top #HF_login_l, #lh_header_top #HF_login_r { 
+		float: none;
+	}
+	#lh_header_top {
+		left: 0px;
+	}
+	
+	#l_header_topbar #l_header_topbar_popup_altro, #l_header_topbar #l_header_topbar_popup_opzioni {
+    	margin-top: 33px;
+	}
+	#l_header_topbar #l_header_topbar_popup_nicknames {
+    	margin-top: 25px;
+	}
+
+	</style>
+<![endif]-->
+<style>
+	#lh_header #lh_area02a{
+		position:relative;
+		overflow: visible;
+		height: 30px;
+	}
+	
+	#lh_header #lh_area02b{
+		z-index: -1;
+	}
+	#lh_header #lh_area02a .lh_pos {
+		position: absolute;
+		margin-bottom: 0;
+	}
+	
+	#lh_header #lh_area02a .lh_on {
+	}
+	#lh_header .lh_finput_area input {
+		height: 27px;
+		padding-top: 0;
+		padding-bottom: 0;
+		line-height: 27px !important;
+		font-size: 15px !important;
+	}
+	#lh_altro{
+		position: relative !important;
+	}
+	#lh_header_top .lh_popup {
+	}
+	#lf_footer .lf_finput_area input {
+		font-size: 12px !important;
+		line-height: 25px !important;
+		vertical-align: middle;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+	
+</style>
+<!--[if IE]>
+	<style>
+	
+	#lh_header_top #lh_area05 a.lh_altro, #lh_header_top #lh_area04 a.lh_opzioni {
+		margin-top: 0px;
+		padding-top: 0px;
+	}
+	#lh_header_top #lh_area05 a.lh_altro { 
+		background-position: -67px -10px;
+	}
+	#lh_header_top #lh_area05 a.lh_altro_selected { 
+		background-position: -67px -36px;
+	}
+	#lh_header_top #lh_area04 a.lh_opzioni {
+		background-position: -56px -10px;
+	}
+	#lh_header_top #lh_area04 a.lh_nicknames_arrow_selected, #lh_header_top #lh_area05 a.lh_altro_selected, #lh_header_top #lh_area04 a.lh_opzioni_selected {
+		height: 23px;		
+	}
+	#lh_header_top #lh_nicknames {
+		left: -195px;
+	}
+	#lh_header_top #lh_other, #lh_header_top #lh_options {
+		top: 22px;
+	}
+	#lh_header_top #lh_nicknames {
+		top: 22px;
+	}
+	
+	#lh_header .lh_finput_area .lh_pos { 
+		padding-top: 4px;
+	}
+	#lf_footer .lf_finput_area {
+		height: 27px;
+		max-height: 27px;
+		overflow: hidden;
+	}
+	</style>
+<![endif]-->
+
+<!--[if IE]>
+	<style>
+	#l_header_topbar #l_header_topbar_popup_altro, #l_header_topbar #l_header_topbar_popup_opzioni {
+    	margin-top: 35px;
+	}
+	#l_header_topbar #l_header_topbar_popup_nicknames {
+    	margin-top: 28px;
+	}
+	#l_header_topbar #l_header_topbar_left #l_header_topbar_popup_altro a, 
+	#l_header_topbar #l_header_topbar_right #l_header_topbar_popup_opzioni a,
+	#l_header_topbar #l_header_topbar_right #l_header_topbar_popup_nicknames a {
+    	padding: 0px 0px 0px 4px;
+	}
+	#l_header_topbar #l_header_topbar_right #l_header_topbar_nicknames_lk {
+		display: inline-block;
+	}
+	#l_header_topbar #l_header_topbar_right #l_header_topbar_filter_family {
+		line-height: 14px;
+	}
+	#l_header_topbar li {
+	    margin-top: 12px;
+	    line-height: 14px;
+    }
+	#l_header_topbar #l_header_topbar_right a.plus_selected {
+	    border-left: 1px solid #ffffff;
+	    color: #000000;
+	    margin-bottom: 0px;
+	    padding: 0px 17px 0px 8px;
+	    display: inline-block;
+	    background-position-y: -286px;
+	}
+	</style>
+<![endif]-->
+
+
+<style>
+#l_header_topbar,#l_header_fixed_topbar_placeholder{height:98px}
+</style>
+
+<!-- header_topbar 
+<div id="l_header_topbar" class="liquid fixed">
+	<div id="l_header_topbar_left">
+		<ul>
+			<li id="l_header_topbar_logo"><a href="http://www.libero.it/">Libero</a></li>
+			<li><a href="https://login.libero.it/?service_id=webmail&amp;ret_url=http%3A%2F%2Fwebmail.libero.it%2Fcp%2Fdefault.jsp%3FrndPrx%3D1082169561">MAIL</a></li>
+			<li><a href="http://notizie.libero.it/">NEWS</a></li>
+			<li><a href="https://video.virgilio.it/?ref=libero">VIDEO</a></li>
+			<li><a href="https://digiland.libero.it/">COMMUNITY</a></li>
+			<li><a href="https://local.virgilio.it/?ref=libero">IN CITT&Agrave;</a></li>
+			<li id="l_header_topbar_altro">
+				<a id="l_header_topbar_altro_lk" class="plus" onclick="Libero.HF.toggle('l_header_topbar_popup_altro'); Libero.HF.toggleClass('l_header_topbar_altro_lk','plus_selected'); return false;" href="#">ALTRO</a>
+				<ul id="l_header_topbar_popup_altro" onmouseover="clearTimeout(Libero.Stash.other_timeout)" onmouseout="Libero.Stash.other_timeout = setTimeout('Libero.HF.hide(\'l_header_topbar_popup_altro\'); Libero.HF.removeClass(\'l_header_topbar_altro_lk\', \'selected\'); ',2000);">
+					<li><a href="https://blog.libero.it">BLOG</a></li>
+					<li><a href="https://chat.libero.it">CHAT</a></li>
+					<li><a href="https://digiland.libero.it/cupido">CUPIDO</a></li>
+					<li><a href="https://digiland.libero.it/trovamici">TROVAMICI</a></li>
+					<li><a href="http://sport.libero.it/">SPORT</a></li>
+					<li><a href="https://tecnologia.libero.it/?ref=libero">TECNOLOGIA</a></li>
+					<li><a href="https://www.3bmeteo.com?ref=libero">METEO</a></li>
+					<li><a href="https://www.dilei.it/?ref=libero">DILEI</a></li>
+					<li><a href="https://www.buonissimo.org/?ref=libero">BUONISSIMO</a></li>
+					<li><a href="https://siviaggia.it/?ref=libero">VIAGGI</a></li>
+					<li><a href="https://quifinanza.it/?ref=libero">ECONOMIA</a></li>
+					<li><a href="https://motori.virgilio.it/?ref=libero">MOTORI</a></li>
+					<li><a href="https://www.supereva.it/?ref=libero">TOP TREND</a></li>
+					<li><a href="https://247.libero.it/">24X7</a></li>
+					<li><a href="http://www.libero.it/servizi/">TUTTI I SERVIZI</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div id="l_header_topbar_right">
+		<ul>
+			<li id="l_header_topbar_aiuto"><a  onclick="return ckSrv(this,Libero.Stash.HF.cksrv.a,Libero.Stash.HF.cksrv.b,'h_aiuto',null);" href="http://aiuto.libero.it/">AIUTO</a></li>
+		</ul>
+	</div>
+	<div id="lsvb">
+		<div class="lsvb_x"></div>
+		<div class="lsvb_i">
+			<table class="lsvb_t">
+				<tr>
+					<td class="lsvb_c1">
+						<div class="lsvb_spc1">
+							<div class="lsvb_lx1">
+								<div class="lsvb_pic_x">
+									<div id="lsvb_pic" style="background-image:none"><div></div></div>
+								</div>
+							</div>
+							<div class="lsvb_lx2">
+								<div class="lsvb_nick_ovr"><div id="lsvb_nick"></div><a id="lsvb_star" class="" title="Gold" href="https://gold.libero.it/"></a></div>
+								<ul class="lsvb_ul1">
+									<li class="lsvb_first"><a id="lsvb_contatta" href="javascript:">Contatta</a></li>
+									<li><a id="lsvb_aggiungi" href="javascript:">Aggiungi</a></li>
+									<li><a id="lsvb_segnala" href="javascript:">Segnala</a></li>
+									<li class="lsvb_last">
+										<div class="lsvb_m1p">
+											<ul id="lsvb_dropdown" onmouseover="libero_vb_pd_mouse(1)" onmouseout="libero_vb_pd_mouse(0)"><li><a id="lsvb_condividi" href="javascript:">Condividi</a></li><li><a id="lsvb_preferiti" href="javascript:">Preferiti</a></li><li><a id="lsvb_blocca" href="javascript:">Blocca</a></li><li class="lsvb_last"><a id="lsvb_cookie" href="http://privacy.italiaonline.it/common/cookie/privacy_detail.php" target="_blank">Cookie Policy</a></li></ul>
+											</div>
+										<a href="#" id="lsvb_pd1" onclick="libero_vb_pulldown();return false" class="lsvb_altro" onmouseover="libero_vb_pd_mouse(1)" onmouseout="libero_vb_pd_mouse(0)">Altro</a>
+									</li>
+								</ul>
+							</div>
+							<div class="lsvb_lx3">
+								<div class="lsvb_ax"><a id="lsvb_profilo" href="javascript:" class="disabled">Profilo</a></div>
+								<div class="lsvb_ax"><a id="lsvb_blog" href="javascript:" class="disabled">Blog</a></div>
+								<div class="lsvb_ax"><a id="lsvb_sito" href="javascript:" class="disabled">Sito</a></div>
+								<div class="lsvb_ax"><a id="lsvb_amici" href="javascript:" class="disabled">Amici</a></div>
+							</div>
+						</div>
+					</td>
+					<td class="lsvb_c2">
+						<div class="lsvb_rx2">
+							<div class="lsvb_crea">		
+								<div class="lsvb_m1p">
+									<ul id="lsvb_dropdown_crea" onmouseover="libero_vb_pd_cr_mouse(1)" onmouseout="libero_vb_pd_cr_mouse(0)">
+									<li><a id="lsvb_crea_profilo" href="javascript:">Profilo</a></li>
+									<li><a id="lsvb_crea_blog" href="javascript:">Blog</a></li>
+									<li><a id="lsvb_crea_sito" href="javascript:">Sito</a></li>
+									<li><a id="lsvb_crea_cupido" href="javascript:">Cupido</a></li>
+									<li class="lsvb_last"><a id="lsvb_crea_chat" href="javascript:">Entra in Chat</a></li>
+									</ul>
+								</div>													
+								<a href="#" id="lsvb_cr1" onclick="libero_vb_pulldown_crea();return false" class="lsvb_altro_crea" onmouseover="libero_vb_pd_cr_mouse(1)" onmouseout="libero_vb_pd_cr_mouse(0)">Crea</a>
+							</div>
+							 <div class="lsvb_search_x">
+							 <div class="lsvb_search">
+								 	<div class="lsvb_m1p">
+								 		<a href="#" id="lsvb_lens" onclick="libero_vb_search_s();return false"></a>
+									</div>
+								 	<form name="lsvb2q" action="https://digiland.libero.it/ricerca" method="get" target="_top">
+									<input type="hidden" name="advRegion" value="8">
+									<div class="lsvb_input_x">
+										<input type="text" name="qs" value="Cerca" id="lsvb_input" onfocus="libero_vb_search(1)" onblur="libero_vb_search(0)">
+									</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</td>
+					<td class="lsvb_c3">
+						<div class="lsvb_rx1">
+							<a href="http://spazio.libero.it/nextsito.php" id="lsvb_rightlink" onclick="return(bsl1_altclick(this,'succ',''))" class="lsvb_bt_scopri scopri-siti" target="_top"></a>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+-->
+<div class="iubenda-advertising-preferences-link"></div>
+
+<div id="l_header_fixed_topbar_placeholder"></div>
+
+<script language="javascript" type="text/javascript">
+<!--
+	// Set auto-resizing
+	Libero.Stash.extractSummary = { max_length: 13, min_width: 20 + document.getElementById('l_header_topbar_left').clientWidth + document.getElementById('l_header_topbar_right').clientWidth, elem: 'l_username' };
+
+	// Run on load
+	Libero.HF.adjust800(Libero.Stash.extractSummary);
+	
+	// Add onresize handlers 
+	if ( window.addEventListener ) {
+		window.addEventListener('resize', function() { Libero.HF.adjust800(Libero.Stash.extractSummary) }, 1);
+	} 
+	else if (window.attachEvent) {
+		window.attachEvent('onresize', function() { Libero.HF.adjust800(Libero.Stash.extractSummary) });
+	}
+-->
+</script>
+
+<script language="javascript" type="text/javascript">
+<!--
+	if ( /MSIE\s+(6|5|4)\./.test(navigator.appVersion) || Libero.Browser.isMobile || Libero.Browser.isTablet ) {
+		//Libero.HF.toggleTopbar(0);
+	}
+//-->
+</script>
+
+<!-- /bsl1 -->
+
+<!-- ADV 2019 - START -->
+<link rel="preconnect" href="https://tags.crwdcntrl.net/">         
+<link rel="preconnect" href="https://bcp.crwdcntrl.net/">         
+<link rel="dns-prefetch" href="https://tags.crwdcntrl.net/">         
+<link rel="dns-prefetch" href="https://bcp.crwdcntrl.net/">
+<script type="text/javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/iam2.0.js.&#19979;&#36733;" async=""></script>
+
+<!-- INIZIO DIV 728x90 DFP -->
+<div id="ad72890top" align="center"></div>
+<!-- ADV 2019 - END -->
+
+
+<ul>
+<center><a href="https://digilander.libero.it/robang/rubrica/serial.htm#CONTENTS"><br>
+<h1>Serial Programming Guide for POSIX Operating Systems</h1></a><br>
+5th Edition<br>
+Michael R. Sweet<br>
+Copyright 1994-1999, All Rights Reserved.<br>
+</center>
+<hr>
+<h1><center><a name="CONTENTS">Table of Contents</a></center></h1>
+<br>
+<br><b><a href="https://digilander.libero.it/robang/rubrica/serial.htm#1">Introduction</a></b>
+<br>
+<br><b><a href="https://digilander.libero.it/robang/rubrica/serial.htm#basics">Chapter 1, Basics of Serial Communications</a></b>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_1">What Are Serial Communications?</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_2">What Is RS-232?</a></li>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_2_1">Signal Definitions</a></li>
+</ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_3">Asynchronous Communications</a></li>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_3_1">What Are Full Duplex and Half Duplex?</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_3_2">Flow Control</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_3_3">What Is a Break?</a></li>
+</ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_4">Synchronous Communications</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_5">Accessing Serial Ports</a></li>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_5_1">Serial Port Files</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_5_2">Opening a Serial Port</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_5_3">Writing Data to the Port</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_5_4">Reading Data from the Port</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#2_5_5">Closing a Serial Port</a></li>
+</ul>
+</ul>
+<b><a href="https://digilander.libero.it/robang/rubrica/serial.htm#config">Chapter 2, Configuring the Serial Port</a></b>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#3_1">The POSIX Terminal Interface</a></li>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#3_1_1">Control Options</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#3_1_2">Local Options</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#3_1_3">Input Options</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#3_1_4">Output Options</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#3_1_5">Control Characters</a></li>
+</ul>
+</ul>
+<b><a href="https://digilander.libero.it/robang/rubrica/serial.htm#modem">Chapter 3, MODEM Communications</a></b>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#4_1">What Is a MODEM?</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#4_2">Communicating With a MODEM</a></li>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#4_2_1">Standard MODEM Commands</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#4_2_2">Common MODEM Communication Problems</a></li>
+</ul>
+</ul>
+<b><a href="https://digilander.libero.it/robang/rubrica/serial.htm#advanced">Chapter 4, Advanced Serial Programming</a></b>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#5_1">Serial Port IOCTLs</a></li>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#5_1_1">Getting the Control Signals</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#5_1_2">Setting the Control Signals</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#5_1_3">Getting the Number of Bytes Available</a></li>
+</ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#5_2">Selecting Input from a Serial Port</a></li>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#5_2_1">The SELECT System Call</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#5_2_2">Using the SELECT System Call</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#5_2_3">Using SELECT with the X Intrinsics Library</a></li>
+</ul>
+</ul>
+<b><a href="https://digilander.libero.it/robang/rubrica/serial.htm#pinouts">Appendix A, Pinouts</a></b>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#6_1">RS-232 Pinouts</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#6_2">RS-422 Pinouts</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#6_3">RS-574 (IBM PC/AT) Pinouts</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#6_4">SGI Pinouts</a></li>
+</ul>
+<b><a href="https://digilander.libero.it/robang/rubrica/serial.htm#ascii">Appendix B, ASCII Control Codes</a></b>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#7_1">Control Codes</a></li>
+</ul>
+<hr>
+<h1 align="CENTER"><a name="1">Introduction</a></h1>
+<p>The Serial Programming Guide for POSIX Operating Systems will teach 
+you how to successfully, efficiently, and portably program the serial 
+ports on your UNIX® workstation or PC. Each chapter provides 
+programming examples that use the POSIX (Portable Standard for UNIX) 
+terminal control functions and should work with very few modifications 
+under IRIX®, HP-UX, SunOS®, Solaris®, Digital UNIX®, Linux®, and most 
+other UNIX operating systems. The biggest difference between operating 
+systems that you will find is the filenames used for serial port device 
+and lock files. </p>
+<p>This guide is organized into the following chapters and appendices: </p>
+<ul>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#basics">Chapter 1, Basics of Serial Programming</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#config">Chapter 2, Configuring the Serial Port</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#modems">Chapter 3, Talking to MODEMs</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#advanced">Chapter 4, Advanced Serial Programming</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#pinouts">Appendix A, RS-232 Pinouts</a></li>
+<li><a href="https://digilander.libero.it/robang/rubrica/serial.htm#ascii">Appendix B, ASCII Control Codes</a></li>
+</ul>
+<hr>
+<h1 align="CENTER"><a name="basics">Chapter 1, Basics of Serial 
+Communications</a></h1>
+<p>This chapter introduces serial communications, RS-232 and other 
+standards that are used on most computers as well as how to access a 
+serial port from a C program. </p>
+<h2><a name="2_1">What Are Serial Communications?</a></h2>
+<p>Computers transfer information (data) one or more bits at a time. 
+Serial refers to the transfer of data one bit at a time. Serial 
+communications include most network devices, keyboards, mice, MODEMs, 
+and terminals. </p>
+<p>When doing serial communications each word (i.e. byte or character) 
+of data you send or receive is sent one bit at a time. Each bit is 
+either <i>on</i> or <i>off.</i> The terms you'll hear sometimes are <i>
+mark</i> for the <i>on</i> state and <i>space</i> for the <i>off</i>
+ state. </p>
+<p>The speed of the serial data is most often expressed as 
+bits-per-second ("bps") or baudot rate ("baud"). This just represents 
+the number of ones and zeroes that can be sent in one second. Back at 
+the dawn of the computer age, 300 baud was considered fast, but today 
+computers can handle RS-232 speeds as high as 430,800 baud! When the 
+baud rate exceeds 1,000, you'll usually see the rate shown in <i>kilo</i>
+baud, or kbps (e.g. 9.6k, 19.2k, etc). For rates above 1,000,000 that 
+rate is shown in <i>mega</i>baud, or Mbps (e.g. 1.5Mbps). </p>
+<p>When referring to serial devices or ports, they are either labeled 
+as <i>Data Communications Equipment</i> ("DCE") or <i>Data Terminal 
+Equipment</i> ("DTE"). The difference between these is simple - every 
+signal pair, like transmit and receive, is swapped. When connecting two 
+DTE or two DCE interfaces together, a serial <i>null-MODEM</i> cable or 
+adapter is used that swaps the signal pairs. </p>
+<h2><a name="2_2">What Is RS-232?</a></h2>
+<p>RS-232 is a standard electrical interface for serial communications 
+defined by the <a href="http://www.eia.org/">Electronic Industries 
+Association ("EIA")</a>. RS-232 actually comes in 3 different flavors 
+(A, B, and C) with each one defining a different voltage range for the <i>
+on</i> and <i>off</i> levels. The most commonly used variety is 
+RS-232C, which defines a mark (on) bit as a voltage between -3V and 
+-12V and a space (off) bit as a voltage between +3V and +12V. The 
+RS-232C specification says these signals can go about 25 feet (8m) 
+before they become unusable. You can usually send signals a bit farther 
+than this as long as the baud is low enough. </p>
+<p>Besides wires for incoming and outgoing data, there are others that 
+provide timing, status, and handshaking: 
+</p><center>
+<table border="" width="80%"><caption align="CENTER">Table 1 - RS-232 Pin 
+Assignments</caption>
+<tbody><tr><th>Pin</th><th>Description</th><th>Pin</th><th>Description</th><th>
+Pin</th><th>Description</th><th>Pin</th><th>Description</th><th>Pin</th><th>
+Description</th></tr>
+<tr><td>1</td><td>Earth Ground</td><td>6</td><td><b>DSR</b> - Data Set 
+Ready</td><td>11</td><td>Unassigned</td><td>16</td><td>Secondary RXD</td><td>
+21</td><td>Signal Quality Detect</td></tr>
+<tr><td>2</td><td><b>TXD</b> - Transmitted Data</td><td>7</td><td><b>GND</b>
+ - Logic Ground</td><td>12</td><td>Secondary DCD</td><td>17</td><td>
+Receiver Clock</td><td>22</td><td>Ring Detect</td></tr>
+<tr><td>3</td><td><b>RXD</b> - Received Data</td><td>8</td><td><b>DCD</b>
+ - Data Carrier Detect</td><td>13</td><td>Secondary CTS</td><td>18</td><td>
+Unassigned</td><td>23</td><td>Data Rate Select</td></tr>
+<tr><td>4</td><td><b>RTS</b> - Request To Send</td><td>9</td><td>
+Reserved</td><td>14</td><td>Secondary TXD</td><td>19</td><td>Secondary 
+RTS</td><td>24</td><td>Transmit Clock</td></tr>
+<tr><td>5</td><td><b>CTS</b> - Clear To Send</td><td>10</td><td>Reserved</td><td>
+15</td><td>Transmit Clock</td><td>20</td><td><b>DTR</b> - Data Terminal 
+Ready</td><td>25</td><td>Unassigned</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<p>Two standards for serial interfaces you may also see are RS-422 and 
+RS-574. RS-422 uses lower voltages and <i>differential</i> signals to 
+allow cable lengths up to about 1000ft (300m). RS-574 defines the 9-pin 
+PC serial connector and voltages. </p>
+<h3><a name="2_2_1">Signal Definitions</a></h3>
+<p>The RS-232 standard defines some 18 different signals for serial 
+communications. Of these, only six are generally available in the UNIX 
+environment. </p>
+<h4>GND - Logic Ground</h4>
+<p>Technically the logic ground is not a signal, but without it none of 
+the other signals will operate. Basically, the logic ground acts as a 
+reference voltage so that the electronics know which voltages are 
+positive or negative. </p>
+<h4>TXD - Transmitted Data</h4>
+<p>The TXD signal carries data transmitted from your workstation to the 
+computer or device on the other end (like a MODEM). A mark voltage is 
+interpreted as a value of 1, while a space voltage is interpreted as a 
+value of 0. </p>
+<h4>RXD - Received Data</h4>
+<p>The RXD signal carries data transmitted from the computer or device 
+on the other end to your workstation. Like TXD, mark and space voltages 
+are interpreted as 1 and 0, respectively. </p>
+<h4>DCD - Data Carrier Detect</h4>
+<p>The DCD signal is received from the computer or device on the other 
+end of your serial cable. A space voltage on this signal line indicates 
+that the computer or device is currently connected or on line. DCD is 
+not always used or available. </p>
+<h4>DTR - Data Terminal Ready</h4>
+<p>The DTR signal is generated by your workstation and tells the 
+computer or device on the other end that you are ready (a space 
+voltage) or not-ready (a mark voltage). DTR is usually enabled 
+automatically whenever you open the serial interface on the 
+workstation. </p>
+<h4>CTS - Clear To Send</h4>
+<p>The CTS signal is received from the other end of the serial cable. A 
+space voltage indicates that is alright to send more serial data from 
+your workstation. </p>
+<p>CTS is usually used to regulate the flow of serial data from your 
+workstation to the other end. </p>
+<h4>RTS - Request To Send</h4>
+<p>The RTS signal is set to the <i>space</i> voltage by your 
+workstation to indicate that more data is ready to be sent. </p>
+<p>Like CTS, RTS helps to regulate the flow of data between your 
+workstation and the computer or device on the other end of the serial 
+cable. Most workstations leave this signal set to the space voltage all 
+the time. </p>
+<h2><a name="2_3">Asynchronous Communications</a></h2>
+<p>For the computer to understand the serial data coming into it, it 
+needs some way to determine where one character ends and the next 
+begins. This guide deals exclusively with <i>asynchronous</i> serial 
+data. </p>
+<p>In asynchronous mode the serial data line stays in the mark (1) 
+state until a character is transmitted. A <i>start</i> bit preceeds 
+each character and is followed immediately by each bit in the 
+character, an optional parity bit, and one or more <i>stop</i> bits. 
+The start bit is always a space (0) and tells the computer that new 
+serial data is available. Data can be sent or received at any time, 
+thus the name asynchronous. 
+<!-- PAGE BREAK ---->
+</p>
+<p align="CENTER">Figure 1 - Asynchronous Data Transmission
+<br><img src="./Serial Programming Guide for POSIX Operating Systems_files/async.gif" width="90%"></p>
+<p>The optional parity bit is a simple sum of the data bits indicating 
+whether or not the data contains an even or odd number of 1 bits. With <i>
+even parity</i>, the parity bit is 0 if there is an even number of 1's 
+in the character. With <i>odd parity</i>, the parity bit is 0 if there 
+is an odd number of 1's in the data. You may also hear the terms <i>
+space parity</i>, <i>mark parity</i>, and <i>no parity</i>. Space 
+parity means that the parity bit is always 0, while mark parity means 
+the bit is always 1. No parity means that no parity bit is present or 
+transmitted. </p>
+<p>The remaining bits are called stop bits. There can be 1, 1.5, or 2 
+stop bits between characters and they always have a value of 1. Stop 
+bits traditionally were used to give the computer time to process the 
+previous character, but now only serve to synchronize the receiving 
+computer to the incoming characters. </p>
+<p>Asynchronous data formats are usually expressed as "8N1", "7E1", and 
+so forth. These stand for "8 data bits, no parity, 1 stop bit" and "7 
+data bits, even parity, 1 stop bit" respectively. </p>
+<h3><a name="2_3_1">What Are Full Duplex and Half Duplex?</a></h3>
+<p><i>Full duplex</i> means that the computer can send and receive data 
+simultaneously - there are two separate data channels (one coming in, 
+one going out). </p>
+<p><i>Half duplex</i> means that the computer cannot send or receive 
+data at the same time. Usually this means there is only a single data 
+channel to talk over. This does not mean that any of the RS-232 signals 
+are not used. Rather, it usually means that the communications link 
+uses some standard other than RS-232 that does not support full duplex 
+operation. </p>
+<h3><a name="2_3_2">Flow Control</a></h3>
+<p>It is often necessary to regulate the flow of data when transferring 
+data between two serial interfaces. This can be due to limitations in 
+an intermediate serial communications link, one of the serial 
+interfaces, or some storage media. Two methods are commonly used for 
+asynchronous data. </p>
+<p>The first method is often called "software" flow control and uses 
+special characters to start (XON or DC1, 021 octal) or stop (XOFF or 
+DC3, 023 octal) the flow of data. These characters are defined in the <a href="https://digilander.libero.it/robang/rubrica/serial.htm#ascii">
+American Standard Code for Information Interchange ("ASCII")</a>. While 
+these codes are useful when transferring textual information, they 
+cannot be used when transferring other types of information without 
+special programming. </p>
+<p>The second method is called "hardware" flow control and uses the 
+RS-232 CTS and RTS signals instead of special characters. The receiver 
+sets CTS to the space voltage when it is ready to receive more data and 
+to the mark voltage when it is not ready. Likewise, the sender sets RTS 
+to the space voltage when it is ready to send more data. Because 
+hardware flow control uses a separate set of signals, it is much faster 
+than software flow control which needs to send or receive multiple bits 
+of information to do the same thing. CTS/RTS flow control is not 
+supported by all hardware or operating systems. </p>
+<h3><a name="2_3_3">What Is a Break?</a></h3>
+<p>Normally a receive or transmit data signal stays at the mark voltage 
+until a new character is transferred. If the signal is dropped to the 
+space voltage for a long period of time, usually 1/4 to 1/2 second, 
+then a break condition is said to exist. </p>
+<p>A break is sometimes used to reset a communications line or change 
+the operating mode of communications hardware like a MODEM. <a href="https://digilander.libero.it/robang/rubrica/serial.htm#modem">
+Chapter 3, Talking to MODEMs</a> covers these applications in more 
+depth. </p>
+<h2><a name="2_4">Synchronous Communications</a></h2>
+<p>Unlike asynchronous data, synchronous data appears as a constant 
+stream of bits. To read the data on the line, the computer must provide 
+or receive a common bit clock so that both the sender and receiver are 
+synchronized. </p>
+<p>Even with this synchronization, the computer must mark the beginning 
+of the data somehow. The most common way of doing this is to use a data 
+packet protocol like Serial Data Link Control ("SDLC") or High-Speed 
+Data Link Control ("HDLC"). </p>
+<p>Each protocol defines certain bit sequences to represent the 
+beginning and end of a data packet. Each also defines a bit sequence 
+that is used when there is no data. These bit sequences allow the 
+computer see the beginning of a data packet. </p>
+<p>Because synchronous protocols do not use per-character 
+synchronization bits they typically provide at least a 25% improvement 
+in performance over asynchronous communications and are suitable for 
+remote networking and configurations with more than two serial 
+interfaces. </p>
+<p>Despite the speed advantages of synchronous communications, most 
+RS-232 hardware does not support it due to the extra hardware and 
+software required. </p>
+<h2><a name="2_5">Accessing Serial Ports</a></h2>
+<p>Like all devices, UNIX provides access to serial ports via <i>device 
+files</i>. To access a serial port you simply open the corresponding 
+device file. </p>
+<h3><a name="2_5_1">Serial Port Files</a></h3>
+<p>Each serial port on a UNIX system has one or more device files 
+(files in the <tt>/dev</tt> directory) associated with it: 
+</p><center>
+<table border="1"><caption align="CENTER">Table 2 - Serial Port Device 
+Files</caption>
+<tbody><tr><th>System</th><th>Port 1</th><th>Port 2</th></tr>
+<tr><td>IRIX®</td><td>/dev/ttyf1</td><td>/dev/ttyf2</td></tr>
+<tr><td>HP-UX</td><td>/dev/tty1p0</td><td>/dev/tty2p0</td></tr>
+<tr><td>Solaris®/SunOS®</td><td>/dev/ttya</td><td>/dev/ttyb</td></tr>
+<tr><td>Linux®</td><td>/dev/ttyS0</td><td>/dev/ttyS1</td></tr>
+<tr><td>Digital UNIX®</td><td>/dev/tty01</td><td>/dev/tty02</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<h3><a name="2_5_2">Opening a Serial Port</a></h3>
+<p>Since a serial port is a file, the <i>open(2)</i> function is used 
+to access it. The one hitch with UNIX is that device files are usually 
+not accessable by normal users. Workarounds include changing the access 
+permissions to the file(s) in question, running your program as the 
+super-user (root), or making your program set-userid so that it runs as 
+the owner of the device file. </p>
+<p>For now we'll assume that the file is accessable by all users. The 
+code to open serial port 1 on an <code>sgi</code>® workstation running 
+IRIX is: </p>
+<ul>
+<p>Listing 1 - Opening a serial port. </p>
+<pre>#include &lt;stdio.h&gt;   /* Standard input/output definitions */
+#include &lt;string.h&gt;  /* String function definitions */
+#include &lt;unistd.h&gt;  /* UNIX standard function definitions */
+#include &lt;fcntl.h&gt;   /* File control definitions */
+#include &lt;errno.h&gt;   /* Error number definitions */
+#include &lt;termios.h&gt; /* POSIX terminal control definitions */
+
+/*
+ * 'open_port()' - Open serial port 1.
+ *
+ * Returns the file descriptor on success or -1 on error.
+ */
+
+int
+open_port(void)
+{
+  int fd; /* File descriptor for the port */
+
+
+  fd = open("/dev/ttyf1", O_RDWR | O_NOCTTY | O_NDELAY);
+  if (fd == -1)
+  {
+   /*
+    * Could not open the port.
+    */
+
+    perror("open_port: Unable to open /dev/ttyf1 - ");
+  }
+  else
+    fcntl(fd, F_SETFL, 0);
+
+  return (fd);
+}
+</pre>
+</ul>
+<p>Other systems would require the corresponding device file name, but 
+otherwise the code is the same. </p>
+<h4>Open Options</h4>
+<p>You'll notice that when we opened the device file we used two other 
+flags along with the read+write mode: </p>
+<ul>
+<pre>fd = open("/dev/ttyf1", O_RDWR | O_NOCTTY | O_NDELAY);
+</pre>
+</ul>
+<p>The <i>O_NOCTTY</i> flag tells UNIX that this program doesn't want 
+to be the "controlling terminal" for that port. If you don't specify 
+this then any input (such as keyboard abort signals and so forth) will 
+affect your process. Programs like <i>getty(1M/8)</i> use this feature 
+when starting the login process, but normally a user program does not 
+want this behavior. </p>
+<p>The <i>O_NDELAY</i> flag tells UNIX that this program doesn't care 
+what state the DCD signal line is in - whether the other end of the 
+port is up and running. If you do not specify this flag, your process 
+will be put to sleep until the DCD signal line is the space voltage. </p>
+<h3><a name="2_5_3">Writing Data to the Port</a></h3>
+<p>Writing data to the port is easy - just use the <i>write(2)</i>
+ system call to send data it: </p>
+<ul>
+<pre>n = write(fd, "ATZ\r", 4);
+if (n &lt; 0)
+  fputs("write() of 4 bytes failed!\n", stderr);
+</pre>
+</ul>
+<p>The <i>write</i> function returns the number of bytes sent or -1 if 
+an error occurred. Usually the only error you'll run into is <i>EIO</i>
+ when a MODEM or data link drops the Data Carrier Detect (DCD) line. 
+This condition will persist until you close the port. </p>
+<h3><a name="2_5_4">Reading Data from the Port</a></h3>
+<p>Reading data from a port is a little trickier. When you operate the 
+port in raw data mode, each <i>read(2)</i> system call will return 
+however many characters are actually available in the serial input 
+buffers. If no characters are available, the call will block (wait) 
+until characters come in, an interval timer expires, or an error 
+occurs. The <i>read</i> function can be made to return immediately by 
+doing the following: </p>
+<ul>
+<pre>fcntl(fd, F_SETFL, FNDELAY);
+</pre>
+</ul>
+<p>The <i>FNDELAY</i> option causes the <i>read</i> function to return 
+0 if no characters are available on the port. To restore normal 
+(blocking) behavior, call <i>fcntl()</i> without the <i>FNDELAY</i>
+ option: </p>
+<ul>
+<pre>fcntl(fd, F_SETFL, 0);
+</pre>
+</ul>
+<p>This is also used after opening a serial port with the O_NDELAY 
+option. </p>
+<h3><a name="2_5_5">Closing a Serial Port</a></h3>
+<p>To close the serial port, just use the <i>close</i> system call: </p>
+<ul>
+<pre>close(fd);
+</pre>
+</ul>
+<p>Closing a serial port will also usually set the DTR signal low which 
+causes most MODEMs to hang up. </p>
+<hr>
+<h1 align="CENTER"><a name="config">Chapter 2, Configuring the Serial 
+Port</a></h1>
+<p>This chapter discusses how to configure a serial port from C using 
+the POSIX termios interface. </p>
+<h2><a name="3_1">The POSIX Terminal Interface</a></h2>
+<p>Most systems support the POSIX terminal (serial) interface for 
+changing parameters such as baud rate, character size, and so on. The 
+first thing you need to do is include the file <tt>&lt;termios.h&gt;</tt>; 
+this defines the terminal control structure as well as the POSIX 
+control functions. </p>
+<p>The two most important POSIX functions are <i>tcgetattr(3)</i> and <i>
+tcsetattr(3)</i>. These get and set terminal attributes, respectively; 
+you provide a pointer to a <i>termios</i> structure that contains all 
+of the serial options available: 
+</p><center>
+<table border="1" width="50%"><caption align="CENTER">Table 3 - Termios 
+Structure Members</caption>
+<tbody><tr><th>Member</th><th>Description</th></tr>
+<tr><td>c_cflag</td><td>Control options</td></tr>
+<tr><td>c_lflag</td><td>Line options</td></tr>
+<tr><td>c_iflag</td><td>Input options</td></tr>
+<tr><td>c_oflag</td><td>Output options</td></tr>
+<tr><td>c_cc</td><td>Control characters</td></tr>
+<tr><td>c_ispeed</td><td>Input baud (new interface)</td></tr>
+<tr><td>c_ospeed</td><td>Output baud (new interface)</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<h3><a name="3_1_1">Control Options</a></h3>
+ The <i>c_cflag</i> member controls the baud rate, number of data bits, 
+parity, stop bits, and hardware flow control. There are constants for 
+all of the supported configurations. 
+<center>
+<table border="1" width="50%"><caption align="CENTER">Table 4 - 
+Constants for the c_cflag Member</caption>
+<tbody><tr><th>Constant</th><th>Description</th></tr>
+<tr><td>CBAUD</td><td>Bit mask for baud rate</td></tr>
+<tr><td>B0</td><td>0 baud (drop DTR)</td></tr>
+<tr><td>B50</td><td>50 baud</td></tr>
+<tr><td>B75</td><td>75 baud</td></tr>
+<tr><td>B110</td><td>110 baud</td></tr>
+<tr><td>B134</td><td>134.5 baud</td></tr>
+<tr><td>B150</td><td>150 baud</td></tr>
+<tr><td>B200</td><td>200 baud</td></tr>
+<tr><td>B300</td><td>300 baud</td></tr>
+<tr><td>B600</td><td>600 baud</td></tr>
+<tr><td>B1200</td><td>1200 baud</td></tr>
+<tr><td>B1800</td><td>1800 baud</td></tr>
+<tr><td>B2400</td><td>2400 baud</td></tr>
+<tr><td>B4800</td><td>4800 baud</td></tr>
+<tr><td>B9600</td><td>9600 baud</td></tr>
+<tr><td>B19200</td><td>19200 baud</td></tr>
+<tr><td>B38400</td><td>38400 baud</td></tr>
+<tr><td>B57600</td><td>57,600 baud</td></tr>
+<tr><td>B76800</td><td>76,800 baud</td></tr>
+<tr><td>B115200</td><td>115,200 baud</td></tr>
+<tr><td>EXTA</td><td>External rate clock</td></tr>
+<tr><td>EXTB</td><td>External rate clock</td></tr>
+<tr><td>CSIZE</td><td>Bit mask for data bits</td></tr>
+<tr><td>CS5</td><td>5 data bits</td></tr>
+<tr><td>CS6</td><td>6 data bits</td></tr>
+<tr><td>CS7</td><td>7 data bits</td></tr>
+<tr><td>CS8</td><td>8 data bits</td></tr>
+<tr><td>CSTOPB</td><td>2 stop bits (1 otherwise)</td></tr>
+<tr><td>CREAD</td><td>Enable receiver</td></tr>
+<tr><td>PARENB</td><td>Enable parity bit</td></tr>
+<tr><td>PARODD</td><td>Use odd parity instead of even</td></tr>
+<tr><td>HUPCL</td><td>Hangup (drop DTR) on last close</td></tr>
+<tr><td>CLOCAL</td><td>Local line - do not change "owner" of port</td></tr>
+<tr><td>LOBLK</td><td>Block job control output</td></tr>
+<tr><td>CNEW_RTSCTS 
+<br>CRTSCTS</td><td>Enable hardware flow control (not supported  on all 
+platforms)</td></tr>
+</tbody></table>
+</center>
+<p>The <i>c_cflag</i> member contains two options that should always be 
+enabled, <i>CLOCAL</i> and <i>CREAD</i>. These will ensure that your 
+program does not become the 'owner' of the port subject to sporatic job 
+control and hangup signals, and also that the serial interface driver 
+will read incoming data bytes. </p>
+<p>The baud rate constants (<i>CBAUD</i>, <i>B9600</i>, etc.) are used 
+for older interfaces that lack the <i>c_ispeed</i> and <i>c_ospeed</i>
+ members. See the next section for information on the POSIX functions 
+used to set the baud rate. </p>
+<p><b>Never</b> initialize the <i>c_cflag</i> (or any other flag) 
+member directly; you should always use the bitwise AND, OR, and NOT 
+operators to set or clear bits in the members.  Different operating 
+system versions (and even patches) can and do use the bits differently, 
+so using the bitwise operators will prevent you from clobbering a bit 
+flag that is needed in a newer serial driver. </p>
+<h4>Setting the Baud Rate</h4>
+<p>The baud rate is stored in different places depending on the 
+operating system. Older interfaces store the baud rate in the <i>c_cflag</i>
+ member using one of the baud rate constants in table 4, while newer 
+implementations provide the <i>c_ispeed</i> and <i>c_ospeed</i> members 
+that contain the actual baud rate value. </p>
+<p>The <i>cfsetospeed(3)</i> and <i>cfsetispeed(3)</i> functions are 
+provided to set the baud rate in the <i>termios</i> structure 
+regardless of the underlying operating system interface. Typically 
+you'd use the following code to set the baud rate: </p>
+<ul>
+<p>Listing 2 - Setting the baud rate. </p>
+<pre>struct termios options;
+
+/*
+ * Get the current options for the port...
+ */
+
+tcgetattr(fd, &amp;options);
+
+/*
+ * Set the baud rates to 19200...
+ */
+
+cfsetispeed(&amp;options, B19200);
+cfsetospeed(&amp;options, B19200);
+
+/*
+ * Enable the receiver and set local mode...
+ */
+
+options.c_cflag |= (CLOCAL | CREAD);
+
+/*
+ * Set the new options for the port...
+ */
+
+tcsetattr(fd, TCSANOW, &amp;options);
+</pre>
+</ul>
+<p>The <i>tcgetattr(3)</i> function fills the termios structure you 
+provide with the current serial port configuration. After we set the 
+baud rates and enable local mode and serial data receipt, we select the 
+new configuration using <i>tcsetattr(3)</i>. The <i>TCSANOW</i>
+ constant specifies that all changes should occur immediately without 
+waiting for output data to finish sending or input data to finish 
+receiving. There are other constants to wait for input and output to 
+finish or to flush the input and output buffers. </p>
+<p>Most systems do not support different input and output speeds, so be 
+sure to set both to the same value for maximum portability. 
+</p><center>
+<table border="1" width="50%"><caption align="CENTER">Table 5 - 
+Constants for tcsetattr</caption>
+<tbody><tr><th>Constant</th><th>Description</th></tr>
+<tr><td>TCSANOW</td><td>Make changes now without waiting for data to 
+complete</td></tr>
+<tr><td>TCSADRAIN</td><td>Wait until everything has been transmitted</td>
+</tr>
+<tr><td>TCSAFLUSH</td><td>Flush input and output buffers and make the 
+change</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<h4>Setting the Character Size</h4>
+<p>Unlike the baud rate, there is no convienience function to set the 
+character size. Instead you must do a little bitmasking to set things 
+up. The character size is specified in bits: </p>
+<ul>
+<pre>options.c_cflag &amp;= ~CSIZE; /* Mask the character size bits */
+options.c_cflag |= CS8;    /* Select 8 data bits */
+</pre>
+</ul>
+<h4>Setting Parity Checking</h4>
+<p>Like the character size you must manually set the parity enable and 
+parity type bits. UNIX serial drivers support even, odd, and no parity 
+bit generation. Space parity can be simulated with clever coding. </p>
+<ul>
+<li>No parity (8N1):</li>
+<pre>options.c_cflag &amp;= ~PARENB
+options.c_cflag &amp;= ~CSTOPB
+options.c_cflag &amp;= ~CSIZE;
+options.c_cflag |= CS8;
+</pre>
+<li>Even parity (7E1):</li>
+<pre>options.c_cflag |= PARENB
+options.c_cflag &amp;= ~PARODD
+options.c_cflag &amp;= ~CSTOPB
+options.c_cflag &amp;= ~CSIZE;
+options.c_cflag |= CS7;
+</pre>
+<li>Odd parity (7O1):</li>
+<pre>options.c_cflag |= PARENB
+options.c_cflag |= PARODD
+options.c_cflag &amp;= ~CSTOPB
+options.c_cflag &amp;= ~CSIZE;
+options.c_cflag |= CS7;
+</pre>
+<li>Space parity is setup the same as no parity (7S1):</li>
+<pre>options.c_cflag &amp;= ~PARENB
+options.c_cflag &amp;= ~CSTOPB
+options.c_cflag &amp;= ~CSIZE;
+options.c_cflag |= CS8;
+</pre>
+</ul>
+<h4>Setting Hardware Flow Control</h4>
+<p>Some versions of UNIX support hardware flow control using the CTS 
+(Clear To Send) and RTS (Request To Send) signal lines. If the <i>
+CNEW_RTSCTS</i> or <i>CRTSCTS</i> constants are defined on your system 
+then hardware flow control is probably supported. Do the following to 
+enable hardware flow control: </p>
+<ul>
+<pre>options.c_cflag |= CNEW_RTSCTS;    /* Also called CRTSCTS */
+</pre>
+</ul>
+<p>Similarly, to disable hardware flow control: </p>
+<ul>
+<pre>options.c_cflag &amp;= ~CNEW_RTSCTS;
+</pre>
+</ul>
+<h3><a name="3_1_2">Local Options</a></h3>
+<p>The local modes member <i>c_lflag</i> controls how input characters 
+are managed by the serial driver. In general you will configure the <i>
+c_lflag</i> member for <i>canonical</i> or <i>raw</i> input. 
+</p><center>
+<table border="1" width="50%"><caption align="CENTER">Table 6 - 
+Constants for the c_lflag Member</caption>
+<tbody><tr><th>Constant</th><th>Description</th></tr>
+<tr><td>ISIG</td><td>Enable SIGINTR, SIGSUSP, SIGDSUSP, and SIGQUIT 
+signals</td></tr>
+<tr><td>ICANON</td><td>Enable canonical input (else raw)</td></tr>
+<tr><td>XCASE</td><td>Map uppercase \lowercase (obsolete)</td></tr>
+<tr><td>ECHO</td><td>Enable echoing of input characters</td></tr>
+<tr><td>ECHOE</td><td>Echo erase character as BS-SP-BS</td></tr>
+<tr><td>ECHOK</td><td>Echo NL after kill character</td></tr>
+<tr><td>ECHONL</td><td>Echo NL</td></tr>
+<tr><td>NOFLSH</td><td>Disable flushing of input buffers after 
+interrupt or quit characters</td></tr>
+<tr><td>IEXTEN</td><td>Enable extended functions</td></tr>
+<tr><td>ECHOCTL</td><td>Echo control characters as ^char and delete as 
+~?</td></tr>
+<tr><td>ECHOPRT</td><td>Echo erased character as character erased</td></tr>
+<tr><td>ECHOKE</td><td>BS-SP-BS entire line on line kill</td></tr>
+<tr><td>FLUSHO</td><td>Output being flushed</td></tr>
+<tr><td>PENDIN</td><td>Retype pending input at next read or input char</td>
+</tr>
+<tr><td>TOSTOP</td><td>Send SIGTTOU for background output</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<h4>Choosing Canonical Input</h4>
+<p>Canonical input is line-oriented. Input characters are put into a 
+buffer which can be edited interactively by the user until a CR 
+(carriage return) or LF (line feed) character is received. </p>
+<p>When selecting this mode you normally select the <i>ICANON</i>, <i>
+ECHO</i>, and <i>ECHOE</i> options: </p>
+<ul>
+<pre>options.c_lflag |= (ICANON | ECHO | ECHOE);
+</pre>
+</ul>
+<h4>Choosing Raw Input</h4>
+<p>Raw input is unprocessed. Input characters are passed through 
+exactly as they are received, when they are received. Generally you'll 
+deselect the <i>ICANON</i>, <i>ECHO</i>, <i>ECHOE</i>, and <i>ISIG</i>
+ options when using raw input: </p>
+<ul>
+<pre>options.c_lflag &amp;= ~(ICANON | ECHO | ECHOE | ISIG);
+</pre>
+</ul>
+<h4>A Note About Input Echo</h4>
+<p><b>Never</b> enable input echo (<i>ECHO, ECHOE</i>) when sending 
+commands to a MODEM or other computer that is echoing characters, as 
+you will generate a feedback loop between the two serial interfaces! </p>
+<h3><a name="3_1_3">Input Options</a></h3>
+<p>The input modes member <i>c_iflag</i> controls any input processing 
+that is done to characters received on the port. Like the <i>c_cflag</i>
+ field, the final value stored in <i>c_iflag</i> is the bitwise OR of 
+the desired options. 
+</p><center>
+<table border="1" width="50%"><caption align="CENTER">Table 7 - 
+Constants for the c_iflag Member</caption>
+<tbody><tr><th>Constant</th><th>Description</th></tr>
+<tr><td>INPCK</td><td>Enable parity check</td></tr>
+<tr><td>IGNPAR</td><td>Ignore parity errors</td></tr>
+<tr><td>PARMRK</td><td>Mark parity errors</td></tr>
+<tr><td>ISTRIP</td><td>Strip parity bits</td></tr>
+<tr><td>IXON</td><td>Enable software flow control (outgoing)</td></tr>
+<tr><td>IXOFF</td><td>Enable software flow control (incoming)</td></tr>
+<tr><td>IXANY</td><td>Allow any character to start flow again</td></tr>
+<tr><td>IGNBRK</td><td>Ignore break condition</td></tr>
+<tr><td>BRKINT</td><td>Send a SIGINT when a break condition is detected</td>
+</tr>
+<tr><td>INLCR</td><td>Map NL to CR</td></tr>
+<tr><td>IGNCR</td><td>Ignore CR</td></tr>
+<tr><td>ICRNL</td><td>Map CR to NL</td></tr>
+<tr><td>IUCLC</td><td>Map uppercase to lowercase</td></tr>
+<tr><td>IMAXBEL</td><td>Echo BEL on input line too long</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<h4>Setting Input Parity Options</h4>
+<p>You should enable input parity checking when you have enabled parity 
+in the <i>c_cflag</i> member (<i>PARENB</i>). The revelant constants 
+for input parity checking are <i>INPCK</i>, <i>IGNPAR</i>, <i>PARMRK</i>
+, and <i>ISTRIP</i>. Generally you will select <i>INPCK</i> and <i>
+ISTRIP </i>to enable checking and stripping of the parity bit: </p>
+<ul>
+<pre>options.c_iflag |= (INPCK | ISTRIP);
+</pre>
+</ul>
+<p><i>IGNPAR</i> is a somewhat dangerous option that tells the serial 
+driver to ignore parity errors and pass the incoming data through as if 
+no errors had occurred. This can be useful for testing the quality of a 
+communications link, but in general is not used for practical reasons. </p>
+<p><i>PARMRK</i> causes parity errors to be 'marked' in the input 
+stream using special characters. If <i>IGNPAR</i> is enabled, a NUL 
+character (000 octal) is sent to your program before every character 
+with a parity error. Otherwise, a DEL (177 octal) and NUL character is 
+sent along with the bad character. </p>
+<h4>Setting Software Flow Control</h4>
+<p>Software flow control is enabled using the <i>IXON</i>, <i>IXOFF</i>
+, and <i>IXANY</i> constants: </p>
+<ul>
+<pre>options.c_iflag |= (IXON | IXOFF | IXANY);
+</pre>
+</ul>
+<p>To disable software flow control simply mask those bits: </p>
+<ul>
+<pre>options.c_iflag &amp;= ~(IXON | IXOFF | IXANY);
+</pre>
+</ul>
+<p>The XON (start data) and XOFF (stop data) characters are defined in 
+the <i>c_cc</i> array described below. </p>
+<h3><a name="3_1_4">Output Options</a></h3>
+<p>The <i>c_oflag</i> member contains output filtering options. Like 
+the input modes, you can select processed or raw data output. 
+</p><center>
+<table border="1" width="50%"><caption align="CENTER">Table 8 - 
+Constants for the c_oflag Member</caption>
+<tbody><tr><th>Constant</th><th>Description</th></tr>
+<tr><td>OPOST</td><td>Postprocess output (not set = raw output)</td></tr>
+<tr><td>OLCUC</td><td>Map lowercase to uppercase</td></tr>
+<tr><td>ONLCR</td><td>Map NL to CR-NL</td></tr>
+<tr><td>OCRNL</td><td>Map CR to NL</td></tr>
+<tr><td>NOCR</td><td>No CR output at column 0</td></tr>
+<tr><td>ONLRET</td><td>NL performs CR function</td></tr>
+<tr><td>OFILL</td><td>Use fill characters for delay</td></tr>
+<tr><td>OFDEL</td><td>Fill character is DEL</td></tr>
+<tr><td>NLDLY</td><td>Mask for delay time needed between lines</td></tr>
+<tr><td>NL0</td><td>No delay for NLs</td></tr>
+<tr><td>NL1</td><td>Delay further output after newline for 100 
+milliseconds</td></tr>
+<tr><td>CRDLY</td><td>Mask for delay time needed to return carriage to 
+left column</td></tr>
+<tr><td>CR0</td><td>No delay for CRs</td></tr>
+<tr><td>CR1</td><td>Delay after CRs depending on current column position</td>
+</tr>
+<tr><td>CR2</td><td>Delay 100 milliseconds after sending CRs</td></tr>
+<tr><td>CR3</td><td>Delay 150 milliseconds after sending CRs</td></tr>
+<tr><td>TABDLY</td><td>Mask for delay time needed after TABs</td></tr>
+<tr><td>TAB0</td><td>No delay for TABs</td></tr>
+<tr><td>TAB1</td><td>Delay after TABs depending on current column 
+position</td></tr>
+<tr><td>TAB2</td><td>Delay 100 milliseconds after sending TABs</td></tr>
+<tr><td>TAB3</td><td>Expand TAB characters to spaces</td></tr>
+<tr><td>BSDLY</td><td>Mask for delay time needed after BSs</td></tr>
+<tr><td>BS0</td><td>No delay for BSs</td></tr>
+<tr><td>BS1</td><td>Delay 50 milliseconds after sending BSs</td></tr>
+<tr><td>VTDLY</td><td>Mask for delay time needed after VTs</td></tr>
+<tr><td>VT0</td><td>No delay for VTs</td></tr>
+<tr><td>VT1</td><td>Delay 2 seconds after sending VTs</td></tr>
+<tr><td>FFDLY</td><td>Mask for delay time needed after FFs</td></tr>
+<tr><td>FF0</td><td>No delay for FFs</td></tr>
+<tr><td>FF1</td><td>Delay 2 seconds after sending FFs</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<h4>Choosing Processed Output</h4>
+<p>Processed output is selected by setting the <i>OPOST</i> option in 
+the <i>c_oflag</i> member: </p>
+<ul>
+<pre>options.c_oflag |= OPOST;
+</pre>
+</ul>
+<p>Of all the different options, you will only probably use the <i>ONLCR</i>
+ option which maps newlines into CR-LF pairs. The rest of the output 
+options are primarily historic and date back to the time when line 
+printers and terminals could not keep up with the serial data stream! </p>
+<h4>Choosing Raw Output</h4>
+<p>Raw output is selected by resetting the <i>OPOST</i> option in the <i>
+c_oflag</i> member: </p>
+<ul>
+<pre>options.c_oflag &amp;= ~OPOST;
+</pre>
+</ul>
+<p>When the <i>OPOST</i> option is disabled, all other option bits in <i>
+c_oflag</i> are ignored. </p>
+<h3><a name="3_1_5">Control Characters</a></h3>
+<p>The <i>c_cc</i> character array contains control character 
+definitions as well as timeout parameters. Constants are defined for 
+every element of this array. 
+</p><center>
+<table border=""><caption align="CENTER">Table 9 - Control Characters in 
+the c_cc Member</caption>
+<tbody><tr><th>Constant</th><th>Description</th><th>Key</th></tr>
+<tr><td>VINTR</td><td>Interrupt</td><td>CTRL-C</td></tr>
+<tr><td>VQUIT</td><td>Quit</td><td>CTRL-Z</td></tr>
+<tr><td>VERASE</td><td>Erase</td><td>Backspace (BS)</td></tr>
+<tr><td>VKILL</td><td>Kill-line</td><td>CTRL-U</td></tr>
+<tr><td>VEOF</td><td>End-of-file</td><td>CTRL-D</td></tr>
+<tr><td>VEOL</td><td>End-of-line</td><td>Carriage return (CR)</td></tr>
+<tr><td>VEOL2</td><td>Second end-of-line</td><td>Line feed (LF)</td></tr>
+<tr><td>VMIN</td><td>Minimum number of characters to read</td></tr>
+<tr><td>VTIME</td><td>Time to wait for data (tenths of seconds)</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<h4>Setting Software Flow Control Characters</h4>
+<p>The <i>VSTART</i> and <i>VSTOP</i> elements of the <i>c_cc</i> array 
+contain the characters used for software flow control. Normally they 
+should be set to DC1 (021 octal) and DC3 (023 octal) which represent 
+the <a href="https://digilander.libero.it/robang/rubrica/serial.htm#ascii">ASCII</a> standard XON and XOFF characters. </p>
+<h4>Setting Read Timeouts</h4>
+<p>UNIX serial interface drivers provide the ability to specify 
+character and packet timeouts. Two elements of the <i>c_cc</i> array 
+are used for timeouts: <i>VMIN</i> and <i>VTIME</i>. <b>Timeouts are 
+ignored in canonical input mode or when the <i>NDELAY</i> option is set 
+on the file via <i>open</i> or <i>fcntl</i>.</b></p>
+<p><i>VMIN</i> specifies the minimum number of characters to read. If 
+it is set to 0, then the <i>VTIME</i> value specifies the time to wait 
+for every character read. Note that this does not mean that a <i>read</i>
+ call for N bytes will wait for N characters to come in. Rather, the 
+timeout will apply to the first character and the <i>read</i> call will 
+return the number of characters immediately available (up to the number 
+you request). </p>
+<p>If <i>VMIN</i> is non-zero, <i>VTIME</i> specifies the time to wait 
+for the first character read. If a character is read within the time 
+given, any read will block (wait) until all <i>VMIN</i> characters are 
+read. That is, once the first character is read, the serial interface 
+driver expects to receive an entire packet of characters (<i>VMIN</i>
+ bytes total). If no character is read within the time allowed, then 
+the call to <i>read</i> returns 0. This method allows you to tell the 
+serial driver you need exactly N bytes and any <i>read</i> call will 
+return 0 or N bytes. However, the timeout only applies to the first 
+character read, so if for some reason the driver misses one character 
+inside the N byte packet then the <i>read</i> call could block forever 
+waiting for additional input characters. </p>
+<p><i>VTIME</i> specifies the amount of time to wait for incoming 
+characters in tenths of seconds. If <i>VTIME</i> is set to 0 (the 
+default), reads will block (wait) indefinitely unless the <i>NDELAY</i>
+ option is set on the port with <i>open</i> or <i>fcntl</i>. </p>
+<hr>
+<h1 align="CENTER"><a name="modem">Chapter 3, MODEM Communications</a></h1>
+<p>This chapter covers the basics of dialup telephone 
+Modulator/Demodulator (MODEM) communications. Examples are provided for 
+MODEMs that use the defacto standard "AT" command set. </p>
+<h2><a name="4_1">What Is a MODEM?</a></h2>
+<p>MODEMs are devices that modulate serial data into frequencies that 
+can be transferred over an analog data link such as a telephone line or 
+cable TV connection. A standard telephone MODEM converts serial data 
+into tones that can be passed over the phone lines; because of the 
+speed and complexity of the conversion these tones sound more like loud 
+screeching if you listen to them. </p>
+<p>Telephone MODEMs are available today that can transfer data across a 
+telephone line at nearly 53,000 bits per second, or 53kbps. In 
+addition, most MODEMs use data compression technology that can increase 
+the bit rate to well over 100kbps on some types of data. </p>
+<h2><a name="4_2">Communicating With a MODEM</a></h2>
+<p>The first step in communicating with a MODEM is to open and 
+configure the port for <i>raw</i> input: </p>
+<ul>
+<p>Listing 3 - Configuring the port for raw input. </p>
+<pre>int            fd;
+struct termios options;
+
+/* open the port */
+fd = open("/dev/ttyf1", O_RDWR | O_NOCTTY | O_NDELAY);
+fcntl(fd, F_SETFL, 0);
+
+/* get the current options */
+tcgetattr(fd, &amp;options);
+
+/* set raw input, 1 second timeout */
+options.c_cflag     |= (CLOCAL | CREAD);
+options.c_lflag     &amp;= ~(ICANON | ECHO | ECHOE | ISIG);
+options.c_oflag     &amp;= ~OPOST;
+options.c_cc[VMIN]  = 0;
+options.c_cc[VTIME] = 10;
+
+/* set the options */
+tcsetattr(fd, TCSANOW, &amp;options);
+</pre>
+</ul>
+<p>Next you need to establish communications with the MODEM. The best 
+way to do this is by sending the "AT" command to the MODEM. This also 
+allows smart MODEMs to detect the baud you are using. When the MODEM is 
+connected correctly and powered on it will respond with the response 
+"OK". </p>
+<ul>
+<p>Listing 4 - Initializing the MODEM. </p>
+<pre>int                  /* O - 0 = MODEM ok, -1 = MODEM bad */
+init_modem(int fd)   /* I - Serial port file */
+{
+  char buffer[255];  /* Input buffer */
+  char *bufptr;      /* Current char in buffer */
+  int  nbytes;       /* Number of bytes read */
+  int  tries;        /* Number of tries so far */
+
+  for (tries = 0; tries &lt; 3; tries ++)
+  {
+   /* send an AT command followed by a CR */
+    if (write(fd, "AT\r", 3) &lt; 3)
+      continue;
+
+   /* read characters into our string buffer until we get a CR or NL */
+    bufptr = buffer;
+    while ((nbytes = read(fd, bufptr, buffer + sizeof(buffer) - bufptr - 1)) &gt; 0)
+    {
+      bufptr += nbytes;
+      if (bufptr[-1] == '\n' || bufptr[-1] == '\r')
+        break;
+    }
+
+   /* nul terminate the string and see if we got an OK response */
+    *bufptr = '\0';
+
+    if (strncmp(buffer, "OK", 2) == 0)
+      return (0);
+  }
+
+  return (-1);
+}
+</pre>
+</ul>
+<h3><a name="4_2_1">Standard MODEM Commands</a></h3>
+<p>Most MODEMs support the "AT" command set, so called because each 
+command starts with the "AT" characters. Each command is sent with the 
+"AT" characters starting in the first column followed by the specific 
+command and a carriage return (CR, 015 octal). After processing the 
+command the MODEM will reply with one of several textual messages 
+depending on the command. </p>
+<h4>ATD - Dial A Number</h4>
+<p>The <i>ATD</i> command dials the specified number. In addition to 
+numbers and dashes you can specify tone ("T") or pulse ("P") dialing, 
+pause for one second (","), and wait for a dialtone ("W"): </p>
+<ul>
+<pre>ATDT 555-1212
+ATDT 18008008008W1234,1,1234
+ATD T555-1212WP1234
+</pre>
+</ul>
+<p>The MODEM will reply with one of the following messages: </p>
+<ul>
+<pre>NO DIALTONE
+BUSY
+NO CARRIER
+CONNECT
+CONNECT <i>baud</i>
+</pre>
+</ul>
+<h4>ATH - Hang Up</h4>
+<p>The <i>ATH</i> command causes the MODEM to hang up. Since the MODEM 
+must be in "command" mode you probably won't use it during a normal 
+phone call. </p>
+<p>Most MODEMs will also hang up if DTR is dropped; you can do this by 
+setting the baud to 0 for at least 1 second. Dropping DTR also returns 
+the MODEM to command mode. </p>
+<p>After a successful hang up the MODEM will reply with "NO CARRIER". 
+If the MODEM is still connected the "CONNECT" or "CONNECT baud" message 
+will be sent. </p>
+<h4>ATZ - Reset MODEM</h4>
+ The <i>ATZ</i> command resets the MODEM. The MODEM will reply with the 
+string "OK". 
+<h3><a name="4_2_2">Common MODEM Communication Problems</a></h3>
+<p>First and foremost, <i>don't forget to disable input echoing</i>. 
+Input echoing will cause a feedback loop between the MODEM and 
+computer. </p>
+<p>Second, when sending MODEM commands you must terminate them with a 
+carriage return (CR) and not a newline (NL). The C character constant 
+for CR is "\r". </p>
+<p>Finally, when dealing with a MODEM make sure you use a baud that the 
+MODEM supports. While many MODEMs do auto-baud detection, some have 
+limits (19.2kbps is common) that you must observe. </p>
+<hr>
+<h1 align="CENTER"><a name="advanced">Chapter 4, Advanced Serial 
+Programming</a></h1>
+<p>This chapter covers advanced serial programming techniques using the <i>
+ioctl(2)</i> and <i>select(2)</i> system calls. </p>
+<h2><a name="5_1">Serial Port IOCTLs</a></h2>
+<p>In <a href="https://digilander.libero.it/robang/rubrica/serial.htm#config">Chapter 2, Configuring the Serial Port</a> we 
+used the <i>tcgetattr</i> and <i>tcsetattr</i> functions to configure 
+the serial port. Under UNIX these functions use the <i>ioctl(2)</i>
+ system call to do their magic. </p>
+<p>The <i>ioctl</i> system call takes three arguments: </p>
+<ul>
+<pre>int ioctl(int fd, int request, ...);
+</pre>
+</ul>
+<p>The <i>fd</i> argument specifies the serial port file descriptor. 
+The <i>request</i> argument is a constant defined in the <code>
+&lt;termios.h&gt;</code> header file and is typically one of the following: 
+</p><center>
+<table border="" width="80%"><caption align="CENTER">Table 10 - IOCTL 
+Requests for Serial Ports</caption>
+<tbody><tr><th>Request</th><th>Description</th><th nowrap="">POSIX Function</th></tr>
+<tr><td>TCGETS</td><td>Gets the current serial port settings.</td><td nowrap="">
+tcgetattr</td></tr>
+<tr><td>TCSETS</td><td>Sets the serial port settings immediately.</td><td nowrap="">tcsetattr(fd, TCSANOW, &amp;options)</td></tr>
+<tr><td>TCSETSF</td><td>Sets the serial port settings after flushing 
+the input and output buffers.</td><td nowrap="">tcsetattr(fd, TCSANOW, 
+&amp;options)</td></tr>
+<tr><td>TCSETSW</td><td>Sets the serial port settings after allowing 
+the input and output buffers  to drain/empty.</td><td nowrap="">
+tcsetattr(fd, TCSANOW, &amp;options)</td></tr>
+<tr><td>TCSBRK</td><td>Sends a break for the given time.</td><td nowrap="">
+tcsendbreak, tcdrain</td></tr>
+<tr><td>TCXONC</td><td>Controls software flow control.</td><td nowrap="">
+tcflow</td></tr>
+<tr><td>TCFLSH</td><td>Flushes the input and/or output queue.</td><td nowrap="">
+tcflush</td></tr>
+<tr><td>TIOCMGET</td><td>Returns the state of the "MODEM" bits.</td><td nowrap="">
+None</td></tr>
+<tr><td>TIOCMSET</td><td>Sets the state of the "MODEM" bits.</td><td nowrap="">
+None</td></tr>
+<tr><td>FIONREAD</td><td>Returns the number of bytes in the input 
+buffer.</td><td nowrap="">None</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<h3><a name="5_1_1">Getting the Control Signals</a></h3>
+<p>The <code>TIOCMGET</code><i> ioctl</i> gets the current "MODEM" 
+status bits, which consist of all of the RS-232 signal lines except <b>
+RXD</b> and <b>TXD</b>: 
+</p><center>
+<table border=""><caption align="CENTER">Table 11 - Control Signal 
+Constants</caption>
+<tbody><tr><th>Constant</th><th>Description</th></tr>
+<tr><td>TIOCM_LE</td><td>DSR (data set ready/line enable)</td></tr>
+<tr><td>TIOCM_DTR</td><td>DTR (data terminal ready)</td></tr>
+<tr><td>TIOCM_RTS</td><td>RTS (request to send)</td></tr>
+<tr><td>TIOCM_ST</td><td>Secondary TXD (transmit)</td></tr>
+<tr><td>TIOCM_SR</td><td>Secondary RXD (receive)</td></tr>
+<tr><td>TIOCM_CTS</td><td>CTS (clear to send)</td></tr>
+<tr><td>TIOCM_CAR</td><td>DCD (data carrier detect)</td></tr>
+<tr><td>TIOCM_CD</td><td>Synonym for TIOCM_CAR</td></tr>
+<tr><td>TIOCM_RNG</td><td>RNG (ring)</td></tr>
+<tr><td>TIOCM_RI</td><td>Synonym for TIOCM_RNG</td></tr>
+<tr><td>TIOCM_DSR</td><td>DSR (data set ready)</td></tr>
+</tbody></table>
+</center>
+<p></p>
+<p>To get the status bits, call <i>ioctl</i> with a pointer to an 
+integer to hold the bits: </p>
+<ul>
+<p>Listing 5 - Getting the MODEM status bits. </p>
+<pre>#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+
+int fd;
+int status;
+
+ioctl(fd, TIOCMGET, &amp;status);
+</pre>
+</ul>
+<h3><a name="5_1_2">Setting the Control Signals</a></h3>
+<p>The <code>TIOCMSET</code><i> ioctl</i> sets the "MODEM" status bits 
+defined above. To drop the DTR signal you can do: </p>
+<ul>
+<p>Listing 6 - Dropping DTR with the TIOCMSET ioctl. </p>
+<pre>#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+
+int fd;
+int status;
+
+ioctl(fd, TIOCMGET, &amp;status);
+
+status &amp;= ~TIOCM_DTR;
+
+ioctl(fd, TIOCMSET, status);
+</pre>
+</ul>
+<p>The bits that can be set depend on the operating system, driver, and 
+modes in use. Consult your operating system documentation for more 
+information. </p>
+<h3><a name="5_1_3">Getting the Number of Bytes Available</a></h3>
+<p>The <code>FIONREAD</code><i> ioctl</i> gets the number of bytes in 
+the serial port input buffer. As with <code>TIOCMGET</code> you pass in 
+a pointer to an integer to hold the number of bytes: </p>
+<ul>
+<p>Listing 7 - Getting the number of bytes in the input buffer. </p>
+<pre>#include &lt;unistd.h&gt;
+#include &lt;termios.h&gt;
+
+int fd;
+int bytes;
+
+ioctl(fd, FIONREAD, &amp;bytes);
+</pre>
+</ul>
+<p>This can be useful when polling a serial port for data, as your 
+program can determine the number of bytes in the input buffer before 
+attempting a read. </p>
+<h2><a name="5_2">Selecting Input from a Serial Port</a></h2>
+<p>While simple applications can poll or wait on data coming from the 
+serial port, most applications are not simple and need to handle input 
+from multiple sources. </p>
+<p>UNIX provides this capability through the <i>select(2)</i> system 
+call. This system call allows your program to check for input, output, 
+or error conditions on one or more file descriptors. The file 
+descriptors can point to serial ports, regular files, other devices, 
+pipes, or sockets. You can poll to check for pending input, wait for 
+input indefinitely, or timeout after a specific amount of time, making 
+the <i>select</i> system call extremely flexible. </p>
+<p>Most GUI Toolkits provide an interface to <i>select</i>; we will 
+discuss the X Intrinsics ("Xt") library later in this chapter. </p>
+<h3><a name="5_2_1">The SELECT System Call</a></h3>
+<p>The <i>select</i> system call accepts 5 arguments: </p>
+<ul>
+<pre>int select(int max_fd, fd_set *input, fd_set *output, fd_set *error,
+           struct timeval *timeout);
+</pre>
+</ul>
+<p>The <i>max_fd</i> argument specifies the highest numbered file 
+descriptor in the <i>input</i>, <i>output</i>, and <i>error</i> sets. 
+The <i>input</i>, <i>output</i>, and <i>error</i> arguments specify 
+sets of file descriptors for pending input, output, or error 
+conditions; specify <code>NULL</code> to disable monitoring for the 
+corresponding condition. These sets are initialized using three macros: </p>
+<ul>
+<pre>FD_ZERO(fd_set);
+FD_SET(fd, fd_set);
+FD_CLR(fd, fd_set);
+</pre>
+</ul>
+<p>The <i>FD_ZERO</i> macro clears the set entirely. The <i>FD_SET</i>
+ and <i>FD_CLR</i> macros add and remove a file descriptor from the 
+set, respectively. </p>
+<p>The <i>timeout</i> argument specifies a timeout value which consists 
+of seconds (<i>timeout.tv_sec</i>) and microseconds (<i>timeout.tv_usec</i>
+). To poll one or more file descriptors, set the seconds and 
+microseconds to zero. To wait indefinitely specify <code>NULL</code>
+ for the timeout pointer. </p>
+<p>The <i>select</i> system call returns the number of file descriptors 
+that have a pending condition, or -1 if there was an error. </p>
+<h3><a name="5_2_2">Using the SELECT System Call</a></h3>
+<p>Suppose we are reading data from a serial port and a socket. We want 
+to check for input from either file descriptor, but want to notify the 
+user if no data is seen within 10 seconds. To do this we'll need to use 
+the <i>select</i> system call: 
+<!-- PAGE BREAK ---->
+</p>
+<ul>
+<p>Listing 8 - Using SELECT to process input from more than one source. </p>
+<pre>#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;sys/select.h&gt;
+
+int            n;
+int            socket;
+int            fd;
+int            max_fd;
+fd_set         input;
+struct timeval timeout;
+
+/* Initialize the input set */
+FD_ZERO(input);
+FD_SET(fd, input);
+FD_SET(socket, input);
+
+max_fd = (socket &gt; fd ? socket : fd) + 1;
+
+/* Initialize the timeout structure */
+timeout.tv_sec  = 10;
+timeout.tv_usec = 0;
+
+/* Do the select */
+n = select(max_fd,  NULL, NULL, ;
+
+/* See if there was an error */
+if (n 0)
+  perror("select failed");
+else if (n == 0)
+  puts("TIMEOUT");
+else
+{
+  /* We have input */
+  if (FD_ISSET(fd, input))
+    process_fd();
+  if (FD_ISSET(socket, input))
+    process_socket();
+}
+</pre>
+</ul>
+<p>You'll notice that we first check the return value of the <i>select</i>
+ system call. Values of 0 and -1 yield the appropriate warning and 
+error messages. Values greater than 0 mean that we have data pending on 
+one or more file descriptors. </p>
+<p>To determine which file descriptor(s) have pending input, we use the <i>
+FD_ISSET</i> macro to test the input set for each file descriptor. If 
+the file descriptor flag is set then the condition exists (input 
+pending in this case) and we need to do something. </p>
+<h3><a name="5_2_3">Using SELECT with the X Intrinsics Library</a></h3>
+<p>The X Intrinsics library provides an interface to the <i>select</i>
+ system call via the <i>XtAppAddInput(3x)</i> and <i>
+XtAppRemoveInput(3x)</i> functions: </p>
+<ul>
+<pre>int XtAppAddInput(XtAppContext context, int fd, int mask,
+                  XtInputProc proc, XtPointer data);
+void XtAppRemoveInput(XtAppContext context, int input);
+</pre>
+</ul>
+<p>The <i>select</i> system call is used internally to implement 
+timeouts, work procedures, and check for input from the X server. These 
+functions can be used with any Xt-based toolkit including Xaw, Lesstif, 
+and Motif. </p>
+<p>The <i>proc</i> argument to <i>XtAppAddInput</i> specifies the 
+function to call when the selected condition (e.g. input available) 
+exists on the file descriptor. In the previous example you could 
+specify the <i>process_fd</i> or <i>process_socket</i> functions. </p>
+<p>Because Xt limits your access to the <i>select</i> system call, 
+you'll need to implement timeouts through another mechanism, probably 
+via <i>XtAppAddTimeout(3x)</i>. </p>
+<hr>
+<h1 align="CENTER"><a name="pinouts">Appendix A, Pinouts</a></h1>
+<p>This appendix provides pinout information for many of the common 
+serial ports you will find. </p>
+<h2><a name="6_1">RS-232 Pinouts</a></h2>
+<p>RS-232 comes in three flavors (A, B, C) and uses a 25-pin D-Sub 
+connector: </p>
+<p align="CENTER">Figure 2 - RS-232 Connector
+<br><img src="./Serial Programming Guide for POSIX Operating Systems_files/db25.gif" width="353" height="83"></p>
+<center>
+<table border=""><caption align="CENTER">Table 12 - RS-232 Signals</caption>
+<tbody><tr><th>Pin</th><th>Description</th><th>Pin</th><th>Description</th></tr>
+<tr><td>1</td><td>Earth Ground</td><td>14</td><td>Secondary TXD</td></tr>
+<tr><td>2</td><td><b>TXD</b> - Transmitted Data</td><td>15</td><td>
+Transmit Clock</td></tr>
+<tr><td>3</td><td><b>RXD</b> - Received Data</td><td>16</td><td>
+Secondary RXD</td></tr>
+<tr><td>4</td><td><b>RTS</b> - Request To Send</td><td>17</td><td>
+Receiver Clock</td></tr>
+<tr><td>5</td><td><b>CTS</b> - Clear To Send</td><td>18</td><td>
+Unassigned</td></tr>
+<tr><td>6</td><td><b>DSR</b> - Data Set Ready</td><td>19</td><td>
+Secondary RTS</td></tr>
+<tr><td>7</td><td><b>GND</b> - Logic Ground</td><td>20</td><td><b>DTR</b>
+ - Data Terminal Ready</td></tr>
+<tr><td>8</td><td><b>DCD</b> - Data Carrier Detect</td><td>21</td><td>
+Signal Quality Detect</td></tr>
+<tr><td>9</td><td>Reserved</td><td>22</td><td>Ring Detect</td></tr>
+<tr><td>10</td><td>Reserved</td><td>23</td><td>Data Rate Select</td></tr>
+<tr><td>11</td><td>Unassigned</td><td>24</td><td>Transmit Clock</td></tr>
+<tr><td>12</td><td>Secondary DCD</td><td>25</td><td>Unassigned</td></tr>
+<tr><td>13</td><td>Secondary CTS</td></tr>
+</tbody></table>
+</center>
+<h2><a name="6_2">RS-422 Pinouts</a></h2>
+<p>RS-422 also uses a 25-pin D-Sub connector, but with differential 
+signals: </p>
+<p align="CENTER">Figure 3 - RS-422 Connector
+<br><img src="./Serial Programming Guide for POSIX Operating Systems_files/db25.gif" width="353" height="83"></p>
+<center>
+<table border=""><caption align="CENTER">Table 13 - RS-422 Signals</caption>
+<tbody><tr><th>Pin</th><th>Description</th><th>Pin</th><th>Description</th></tr>
+<tr><td>1</td><td>Earth Ground</td><td>14</td><td>TXD+</td></tr>
+<tr><td>2</td><td><b>TXD-</b> - Transmitted Data</td><td>15</td><td>
+Transmit Clock-</td></tr>
+<tr><td>3</td><td><b>RXD-</b> - Received Data</td><td>16</td><td>RXD+</td>
+</tr>
+<tr><td>4</td><td><b>RTS-</b> - Request To Send</td><td>17</td><td>
+Receiver Clock-</td></tr>
+<tr><td>5</td><td><b>CTS-</b> - Clear To Send</td><td>18</td><td>
+Unassigned</td></tr>
+<tr><td>6</td><td><b>DSR</b> - Data Set Ready</td><td>19</td><td>RTS+</td>
+</tr>
+<tr><td>7</td><td><b>GND</b> - Logic Ground</td><td>20</td><td><b>DTR-</b>
+ - Data Terminal Ready</td></tr>
+<tr><td>8</td><td><b>DCD-</b> - Data Carrier Detect</td><td>21</td><td>
+Signal Quality Detect</td></tr>
+<tr><td>9</td><td>Reserved</td><td>22</td><td>Unassigned</td></tr>
+<tr><td>10</td><td>Reserved</td><td>23</td><td><b>DTR+</b></td></tr>
+<tr><td>11</td><td>Unassigned</td><td>24</td><td>Transmit Clock+</td></tr>
+<tr><td>12</td><td>DCD+</td><td>25</td><td>Receiver Clock+</td></tr>
+<tr><td>13</td><td>CTS+</td></tr>
+</tbody></table>
+</center>
+<h2><a name="6_3">RS-574 (IBM PC/AT) Pinouts</a></h2>
+<p>The RS-574 interface is used exclusively by PC manufacturers and 
+uses a 9-pin male D-Sub connector: </p>
+<p align="CENTER">Figure 4 - RS-574 Connector
+<br><img src="./Serial Programming Guide for POSIX Operating Systems_files/db9.gif" width="164" height="82"></p>
+<center>
+<table border=""><caption align="CENTER">Table 14 - RS-574 (IBM PC/AT) 
+Signals</caption>
+<tbody><tr><th>Pin</th><th>Description</th><th>Pin</th><th>Description</th></tr>
+<tr><td>1</td><td><b>DCD</b> - Data Carrier Detect</td><td>6</td><td>
+Data Set Ready</td></tr>
+<tr><td>2</td><td><b>RXD</b> - Received Data</td><td>7</td><td><b>RTS</b>
+ - Request To Send</td></tr>
+<tr><td>3</td><td><b>TXD</b> - Transmitted Data</td><td>8</td><td><b>CTS</b>
+ - Clear To Send</td></tr>
+<tr><td>4</td><td><b>DTR</b> - Data Terminal Ready</td><td>9</td><td>
+Ring Detect</td></tr>
+<tr><td>5</td><td><b>GND</b> - Logic Ground</td></tr>
+</tbody></table>
+</center>
+<h2><a name="6_4">SGI Pinouts</a></h2>
+<p>Older SGI equipment uses a 9-pin female D-Sub connector. Unlike 
+RS-574, the SGI pinouts nearly match those of RS-232: </p>
+<p align="CENTER">Figure 5 - SGI 9-Pin Connector
+<br><img src="./Serial Programming Guide for POSIX Operating Systems_files/db9.gif" width="164" height="82"></p>
+<center>
+<table border=""><caption align="CENTER">Table 15 - SGI 9-Pin DSUB Signals</caption>
+<tbody><tr><th>Pin</th><th>Description</th><th>Pin</th><th>Description</th></tr>
+<tr><td>1</td><td>Earth Ground</td><td>6</td><td><b>DSR</b> - Data Set 
+Ready</td></tr>
+<tr><td>2</td><td><b>TXD</b> - Transmitted Data</td><td>7</td><td><b>GND</b>
+ - Logic Ground</td></tr>
+<tr><td>3</td><td><b>RXD</b> - Received Data</td><td>8</td><td><b>DCD</b>
+ - Data Carrier Detect</td></tr>
+<tr><td>4</td><td><b>RTS</b> - Request To Send</td><td>9</td><td><b>DTR</b>
+ - Data Terminal Ready</td></tr>
+<tr><td>5</td><td><b>CTS</b> - Clear To Send</td></tr>
+</tbody></table>
+</center>
+<p>The SGI Indigo, Indigo2, and Indy workstations use the Apple 8-pin 
+MiniDIN connector for their serial ports: </p>
+<p align="CENTER">Figure 6 - SGI 8-Pin Connector
+<br><img src="./Serial Programming Guide for POSIX Operating Systems_files/mdin8.gif" width="112" height="112"></p>
+<center>
+<table border=""><caption align="CENTER">Table 16 - SGI 8-Pin MiniDIN 
+Signals</caption>
+<tbody><tr><th>Pin</th><th>Description</th><th>Pin</th><th>Description</th></tr>
+<tr><td>1</td><td><b>DTR</b> - Data Terminal Ready</td><td>5</td><td><b>
+RXD</b> - Received Data</td></tr>
+<tr><td>2</td><td><b>CTS</b> - Clear To Send</td><td>6</td><td><b>RTS</b>
+ - Request To Send</td></tr>
+<tr><td>3</td><td><b>TXD</b> - Transmitted Data</td><td>7</td><td><b>DCD</b>
+ - Data Carrier Detect</td></tr>
+<tr><td>4</td><td><b>GND</b> - Logic Ground</td><td>8</td><td><b>GND</b>
+ - Logic Ground</td></tr>
+</tbody></table>
+</center>
+<hr>
+<h1 align="CENTER"><a name="ascii">Appendix B, ASCII Control Codes</a></h1>
+<p>This chapter lists the ASCII control codes and their names. </p>
+<h2><a name="7_1">Control Codes</a></h2>
+ The following ASCII characters are used for control purposes: 
+<center>
+<table border=""><caption align="CENTER">Table 17 - ASCII Control Codes</caption>
+<tbody><tr><th>Name</th><th>Binary</th><th>Octal</th><th>Decimal</th><th>
+Hexadecimal</th></tr>
+<tr><td>NUL</td><td>00000000</td><td>000</td><td>0</td><td>00</td></tr>
+<tr><td>SOH</td><td>00000001</td><td>001</td><td>1</td><td>01</td></tr>
+<tr><td>STX</td><td>00000010</td><td>002</td><td>2</td><td>02</td></tr>
+<tr><td>ETX</td><td>00000011</td><td>003</td><td>3</td><td>03</td></tr>
+<tr><td>EOT</td><td>00000100</td><td>004</td><td>4</td><td>04</td></tr>
+<tr><td>ENQ</td><td>00000101</td><td>005</td><td>5</td><td>05</td></tr>
+<tr><td>ACK</td><td>00000110</td><td>006</td><td>6</td><td>06</td></tr>
+<tr><td>BEL</td><td>00000111</td><td>007</td><td>7</td><td>07</td></tr>
+<tr><td>BS</td><td>00001000</td><td>010</td><td>8</td><td>08</td></tr>
+<tr><td>HT</td><td>00001001</td><td>011</td><td>9</td><td>09</td></tr>
+<tr><td>NL</td><td>00001010</td><td>012</td><td>10</td><td>0A</td></tr>
+<tr><td>VT</td><td>00001011</td><td>013</td><td>11</td><td>0B</td></tr>
+<tr><td>NP, FF</td><td>00001100</td><td>014</td><td>12</td><td>0C</td></tr>
+<tr><td>CR</td><td>00001101</td><td>015</td><td>13</td><td>0D</td></tr>
+<tr><td>SO</td><td>00001110</td><td>016</td><td>14</td><td>0E</td></tr>
+<tr><td>SI</td><td>00001111</td><td>017</td><td>15</td><td>0F</td></tr>
+<tr><td>DLE</td><td>00010000</td><td>020</td><td>16</td><td>10</td></tr>
+<tr><td>XON, DC1</td><td>00010001</td><td>021</td><td>17</td><td>11</td></tr>
+<tr><td>DC2</td><td>00010010</td><td>022</td><td>18</td><td>12</td></tr>
+<tr><td>XOFF, DC3</td><td>00010011</td><td>023</td><td>19</td><td>13</td>
+</tr>
+<tr><td>DC4</td><td>00010100</td><td>024</td><td>20</td><td>14</td></tr>
+<tr><td>NAK</td><td>00010101</td><td>025</td><td>21</td><td>15</td></tr>
+<tr><td>SYN</td><td>00010110</td><td>026</td><td>22</td><td>16</td></tr>
+<tr><td>ETB</td><td>00010111</td><td>027</td><td>23</td><td>17</td></tr>
+<tr><td>CAN</td><td>00011000</td><td>030</td><td>24</td><td>18</td></tr>
+<tr><td>EM</td><td>00011001</td><td>031</td><td>25</td><td>19</td></tr>
+<tr><td>SUB</td><td>00011010</td><td>032</td><td>26</td><td>1A</td></tr>
+<tr><td>ESC</td><td>00011011</td><td>033</td><td>27</td><td>1B</td></tr>
+<tr><td>FS</td><td>00011100</td><td>034</td><td>28</td><td>1C</td></tr>
+<tr><td>GS</td><td>00011101</td><td>035</td><td>29</td><td>1D</td></tr>
+<tr><td>RS</td><td>00011110</td><td>036</td><td>30</td><td>1E</td></tr>
+<tr><td>US</td><td>00011111</td><td>037</td><td>31</td><td>1F</td></tr>
+</tbody></table>
+</center>
+</ul>
+<!-- DIV 728x90 IAM -->
+<div id="ad72890bottom" align="center"></div> 
+<!-- START Digilander F -->
+<script language="Javascript">
+<!--
+if ( typeof(bsl1_boot) != 'undefined'  ) {
+        setTimeout("bsl1_boot()",100);
+}
+var rs_DLR=1;
+var rs_DLRERR=0;
+//-->
+</script>
+<script language="Javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/digi_ad_13.js.&#19979;&#36733;">
+</script>
+<!-- END Digilander F -->
+<!-- START Nielsen Online SiteCensus V6.0 -->
+<!-- COPYRIGHT 2012 Nielsen Online -->
+<script language="JavaScript"><!--
+var w0=1;
+var refR=escape(document.referrer);
+if (refR.length>=252) refR=refR.substring(0,252)+"...";
+//--></script>
+<script language="JavaScript1.1"><!--
+var w0=0;
+if (rs_DLR) document.write('<script type="text/javascript" src="//secure-it.imrworldwide.com/v60.js"></script>');
+//--></script><script type="text/javascript" src="./Serial Programming Guide for POSIX Operating Systems_files/v60.js.&#19979;&#36733;"></script>
+<script type="text/javascript">
+ var pvar = { cid: "libero-it", content: "0", server: "secure-it" };
+ var feat = { check_cookie: 0 };
+ var trac = nol_t(pvar, feat);
+ trac.record().post();
+</script>
+<noscript>
+ <div>
+ <img src="//secure-it.imrworldwide.com/cgi-bin/m?ci=libero-it&amp;cg=0&amp;cc=0&amp;ts=noscript"
+ width="1" height="1" alt="" />
+ </div>
+</noscript>
+<!-- END Nielsen Online SiteCensus V6.0 -->
+<!--  Libero COMSCORE start - Version 1.53 -->
+<script type="text/javascript">
+if ( rs_DLRERR == 1 ) {
+var libero_comscore_error = 404;
+}
+</script>
+<script type="text/javascript">
+	document.write(unescape("%3Cscript src='" + (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js'%3E%3C/script%3E"));
+</script><script src="./Serial Programming Guide for POSIX Operating Systems_files/beacon.js.&#19979;&#36733;"></script>
+<script type="text/javascript">
+if (rs_DLR) {
+	document.write(unescape("%3Cscript id='libero_tracking_js_site' src='http://digistatic.libero.it/js/comscore_8_3_04/comscore_digilander.libero.it.js'%3E%3C/script%3E"));
+	document.write(unescape("%3Cscript id='libero_tracking_js_site' src='http://digistatic.libero.it/js/comscore_8_3_04/comscore_engine.js'%3E%3C/script%3E"));
+	
+}
+</script><script id="libero_tracking_js_site" src="./Serial Programming Guide for POSIX Operating Systems_files/comscore_digilander.libero.it.js.&#19979;&#36733;"></script><script id="libero_tracking_js_site" src="http://digistatic.libero.it/js/comscore_8_3_04/comscore_engine.js"></script>
+<noscript>
+	<img src="http://b.scorecardresearch.com/p?c1=2&amp;c2=13259779&amp;cj=1&amp;name=libero.others&amp;ns_site=libero" />	
+</noscript>
+<!-- Libero COMSCORE end -->
+
+<!-- IOL Analytics -->
+<script src="./Serial Programming Guide for POSIX Operating Systems_files/tracking_digilander-libero-it.min.js.&#19979;&#36733;"></script>
+<script src="./Serial Programming Guide for POSIX Operating Systems_files/IOL.Analytics.Tracking.min.js.&#19979;&#36733;"></script>
+<script type="text/javascript">
+var iat = new IOL.Analytics.Tracking.Engine();
+iat.send();
+</script>
+<noscript><img src="//italiaonline01.wt-eu02.net/215973748390194/wt.pl?p=315,libero.web.share.digiland.siti.digilander&amp;cg1=libero&amp;cg2=web&amp;cg3=share&amp;cg4=digiland&amp;cg5=siti&amp;cg6=digilander&amp;cg7=libero.web.share.digiland.siti.digilander" height="1" width="1" alt=""></noscript>
+<!-- /IOL Analytics -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./Serial Programming Guide for POSIX Operating Systems_files/js(2)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-77960099-3');
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+--------------A972E68717C0BBB4417CB590--
+
+<iframe src="./Serial Programming Guide for POSIX Operating Systems_files/ls.html" height="0" width="0" id="lsframe" style="display: none;"></iframe></body></html>

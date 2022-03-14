@@ -1,0 +1,16 @@
+&ecspi1 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_ecspi1>;
+
+    fsl,spi-num-chipselects = <2>;
+    cs-gpios = <&gpio4 26 GPIO_ACTIVE_LOW>, <&gpio4 24 GPIO_ACTIVE_LOW>;
+    status = "okay";
+
+
+    oled: oled {
+        compatible = "100ask,oled";
+        reg = <0>;
+        spi-max-frequency = <1000000>;
+        dc-gpios = <&gpio4 20 GPIO_ACTIVE_HIGH>;
+    };
+

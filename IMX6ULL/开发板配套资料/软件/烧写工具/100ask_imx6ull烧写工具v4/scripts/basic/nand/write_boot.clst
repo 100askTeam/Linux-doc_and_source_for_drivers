@@ -1,0 +1,5 @@
+uuu_version 1.2.39
+FB: ucmd setenv fastboot_buffer 0x80200000
+FB: download -f ../../../files/u-boot-dtb_nand.imx
+FB: ucmd nandbcb update ${fastboot_buffer} boot  ${fastboot_bytes}
+FB: done

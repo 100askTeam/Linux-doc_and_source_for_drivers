@@ -1,0 +1,8 @@
+uuu_version 1.2.39
+FB[-t 60000]: ucmd setenv mmcdev 1
+FB[-t 60000]: ucmd setenv mmcpart 2
+FB[-t 60000]: ucmd setenv bootcmd 'mw.l 98000000 ffffffff 1000000; ext4load mmc 1:2 98000000 /rootfs.jffs2; ext4load mmc 1:2 80000000 /liteos.bin; go 80000000'
+
+FB[-t 60000]: ucmd saveenv
+FB: Done
+

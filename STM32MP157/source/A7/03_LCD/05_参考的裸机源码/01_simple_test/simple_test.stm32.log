@@ -1,0 +1,7 @@
+Image Type   : STMicroelectronics STM32 V1.0
+Image Size   : 5228 bytes
+Image Load   : 0xc0100000
+Entry Point  : 0xc0100000
+Checksum     : 0x0008078e
+Option     : 0x00000001
+BinaryType : 0x00000000

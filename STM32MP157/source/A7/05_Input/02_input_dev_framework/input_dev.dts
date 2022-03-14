@@ -1,0 +1,6 @@
+/ {
+	input_dev_demo {
+		compatible = "100ask,input_dev_demo";
+		interrupts = <...>;
+	};
+};

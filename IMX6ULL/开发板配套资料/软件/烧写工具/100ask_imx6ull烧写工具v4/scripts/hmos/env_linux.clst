@@ -1,0 +1,11 @@
+uuu_version 1.2.39
+FB[-t 60000]: ucmd setenv mmcdev 1
+FB[-t 60000]: ucmd setenv mmcpart 2
+FB[-t 60000]: ucmd setenv bootdir /boot
+FB[-t 60000]: ucmd setenv fdt_file 100ask_imx6ull_mini.dtb
+FB[-t 60000]: ucmd setenv loadfdt 'ext2load mmc ${mmcdev}:${mmcpart} ${fdt_addr} ${bootdir}/${fdt_file}'
+FB[-t 60000]: ucmd setenv loadimage 'ext2load mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bootdir}/${image}'
+FB[-t 60000]: ucmd setenv bootcmd 'run findfdt;mmc dev ${mmcdev}; if mmc rescan; then if run loadbootscript; then run bootscript; else if run loadimage; then run mmcboot; else run netboot; fi; fi; else run netboot; fi'
+FB[-t 60000]: ucmd saveenv
+FB: Done
+

@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
+/*
+* Copyright (C) 100ASK 2020 - All Rights Reserved
+* Author: 100ask
+* support: weidongshan@qq.com
+*/
+
+/dts-v1/;
+
+#include "stm32mp157.dtsi"
+#include "stm32mp15xa.dtsi" 
+#include "stm32mp157-100ask-pinctrl.dtsi"
+#include "stm32mp15xxac-pinctrl.dtsi"
+#include "stm32mp15xx-100ask.dtsi"
+
+/ {
+	model = "100ASK YA157C v2 www.100ask.com";
+	compatible = "st,stm32mp157c-100ask-512d-v1", "st,stm32mp157";
+
+	aliases {
+		ethernet0 = &ethernet0;
+		serial0 = &uart4; //debug
+		serial1 = &usart6; //rs485
+		serial2 = &usart1; //bluetooth
+		serial3 = &uart8;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+
+	reserved-memory {
+		gpu_reserved: gpu@da000000 {
+			reg = <0xda000000 0x4000000>;
+			no-map;
+		};
+
+		optee_memory: optee@0xde000000 {
+			reg = <0xde000000 0x02000000>;
+			no-map;
+		};
+	};	
+
+};
+
+&optee {
+	status = "okay";
+};

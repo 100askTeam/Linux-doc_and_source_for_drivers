@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://cdn-gl.imrworldwide.com/novms/html/ls.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+	</head>
+	<body>
+		<script>
+			(function (window) {
+				var ss = null, ls = null, debugLs = false, syncPingArr = [], key = window.location.search.split("=")[1],
+					postMsgAvail = (typeof (window.postMessage) == "function"),
+					isValidJson = (window.NOLCMB && window.NOLCMB.GLCFG && window.NOLCMB.GLCFG.isValidJson) ?
+						window.NOLCMB.GLCFG.isValidJson :
+						(function (val) { try { JSON.parse(val); } catch (e) { return false; } return true; });
+				try {
+					// try to set sessionStorage
+					ss = window.sessionStorage;
+				} catch (e) { /* if we get here it means that storage is disabled */ }
+				try {
+					// try to set localStorage
+					ls = window.localStorage;
+				} catch (e) { /* if we get here it means that storage is disabled */ }
+
+				var _cookie = {
+					all: function () {
+						return document.cookie;
+					},
+					get: function (name) {
+						try {
+							var match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+							return match ? match[2] : "";
+						} catch (e) { /* cookies might not be enabled */ }
+						return "";
+					}
+				};
+
+				if (window.addEventListener) {
+					window.addEventListener("message", function (evt) {
+						var passedData = handleJson({ "handler": "parse", "data": evt.data }), l_evtType;
+						if (window.document.referrer.indexOf(evt.origin) == 0 || (window.document.referrer === "" && evt.origin === "null") || (passedData && passedData.nolSentFromBsdk)) {
+							if (!passedData || !passedData.hasOwnProperty("eventType")) return;
+							l_evtType = passedData.eventType.toLowerCase();
+							if (passedData.hasOwnProperty("storageType") && passedData.storageType == "local") {
+
+								switch (l_evtType) {
+									case "get":
+										if (ls && window.location.origin.indexOf(".imrworldwide.com") !== -1) { /* only run get for imrworldwide domain */
+											var retVal = handleJson({ "handler": "parse", "data": ls.getItem(passedData.key) }) || "";
+											if (postMsgAvail)
+												evt.source.postMessage({ nolSentFromLs: true, key: passedData.key, type: "lsget", val: retVal }, (evt.origin && evt.origin !== "null" ? evt.origin : "*"));
+										} else {
+											// send message back to note that 3rd party data is disabled
+											if (postMsgAvail) {
+												evt.source.postMessage({ nolSentFromLs: true, key: passedData.key, type: "lsdisabled", val: true }, (evt.origin && evt.origin !== "null" ? evt.origin : "*"));
+											}// if
+										}// if-else
+										break;
+									case "set":
+										if (passedData.data !== "999" && ls && window.location.origin.indexOf(".imrworldwide.com") !== -1) { /* only run set for imrworldwide domain */
+											ls.setItem(passedData.key, handleJson({ "handler": "stringify", "data": passedData.data }));
+										}
+										break;
+									case "delete":
+										if (ls) {
+											ls.removeItem(passedData.key);
+										}// if
+										break;
+								}
+							} else if (passedData.hasOwnProperty("data") && passedData.data.hasOwnProperty("url") && String(passedData.data.url).length > 0) {
+								switch (l_evtType) {
+									case "maskref":
+										sendRequest(passedData.data.url)
+										break;
+									case "maskrefretry":
+											fireToUrl({
+											url: passedData.data.url,
+											type: "session",
+											currRetry: 0,
+											maxRetry: 5,
+											retryDelay: 2000
+										});
+										break;
+									case "requsingframe":
+										sendReqUsingFrame(passedData.data.url);
+										break;
+								}
+							} else if (passedData.hasOwnProperty("storageType") && passedData.storageType == "cookie") {
+								// get cookie
+								switch (l_evtType) {
+									case "get":
+										if (navigator.cookieEnabled) {
+											switch (passedData.key) {
+												case "cookieall":
+													postMsgAvail && evt.source.postMessage({ nolSentFromLs: true, key: passedData.key, type: "cookieget", val: _cookie.all() }, (evt.origin && evt.origin !== "null" ? evt.origin : "*"));
+													break;
+												case "IMRID":
+													if(window.location.origin.indexOf(".imrworldwide.com") !== -1) {
+														debugLs = passedData.debug;
+														sendSyncPing(passedData.key, passedData.data, { currRetry: 1, maxRetry: 10, retryDelay: 5000 });
+													}
+													break;
+												case "OPT_OUT":
+													var cookieVal = _cookie.get(passedData.key);
+													postMsgAvail && evt.source.postMessage({ nolSentFromLs: true, key: passedData.key, type: "cookieget", val: cookieVal }, (evt.origin && evt.origin !== "null" ? evt.origin : "*"));
+													break;
+											}
+										} else {
+											// cookies disabled for 3rd party sites - send cookie disabled msg
+											if (postMsgAvail) {
+												evt.source.postMessage({ nolSentFromLs: true, key: passedData.key, type: "cookiedisabled", val: true }, (evt.origin && evt.origin !== "null" ? evt.origin : "*"));
+											}// if
+										}// if-else
+										break;
+
+								};// switch
+							} else {
+								if (ss) {
+									//Use older session storage imp. May align this with ls logic currently used in future
+									ss[key] = handleJson({ "handler": "stringify", "data": evt.data });
+								}// if
+							}
+						}
+					}, false);
+
+					window.addEventListener("storage", onStorage, false);
+				} else if (window.attachEvent) {
+					window.attachEvent("onmessage", function (evt) {
+						if (window.document.referrer.indexOf(evt.origin) == 0 && ss) {
+							ss[key] = handleJson({ "handler": "stringify", "data": evt.data });
+						}
+					});
+
+					window.attachEvent("onstorage", onStorage);
+				}
+
+				function logMessage(type, msg) {
+					if(type && msg && window.console && window.console.log) {
+						switch(type.toLowerCase()) {
+							case "info":
+								console.log("Nielsen Log: Info -", msg);
+								break;
+							case "debug":
+								if(debugLs) {
+									console.log("Nielsen Log: Debug -", msg);
+								}
+								break;
+							case "error":
+								console.log("Nielsen Log: Error -", msg);
+								break;
+						}
+					}
+				}
+
+				function handleJson(args) {
+					var retVal = undefined;
+					if (args && typeof (args) === "object" && args.hasOwnProperty("data") && args.hasOwnProperty("handler")) {
+						switch (args.handler) {
+							case "parse":
+								retVal = (isValidJson(args.data)) ? JSON.parse(args.data) : {};
+								break;
+							case "stringify":
+								try { retVal = JSON.stringify(args.data); } catch (e) { retVal = ""; };
+								break;
+						}
+					}
+					return retVal;
+				}
+
+				/*Using the below method to fire to the emmUrl passed since the image tag does not work with the android intent handling*/
+				function sendReqUsingFrame(url) {
+
+					try {
+						if (!url) return;
+
+						var l_frame = window.document.createElement("iframe");
+						l_frame.src = url;
+						l_frame.height = 0;
+						l_frame.width = 0;
+						l_frame.style.display = "none";
+						l_frame.id = "emmframe_" + Date.now();
+						window.document.body.appendChild(l_frame);
+
+						// setting function to remove iframe if loading fails
+						var iframeClear = setTimeout(function () {
+							window.document.body.removeChild(l_frame);
+						}, 5000);
+
+						l_frame.onload = function () {
+							try {
+								//When the iframe is loaded, we know req has ben sent so delete it
+								this.parentNode.removeChild(this);
+
+								// if iframe loaded fine, clear timeout
+								if (iframeClear) {
+									clearTimeout(iframeClear);
+								}// if
+							} catch (e) {
+							}
+						};
+					} catch (e) {
+					}
+				}
+
+				function fireToUrl(args, done) {
+
+					if (typeof (args) === "undefined" ||
+						(args && (!args.hasOwnProperty("url") || args.url.length === 0) ||
+						(!args.hasOwnProperty("retryDelay")) ||
+						(!args.hasOwnProperty("currRetry")) ||
+						(!args.hasOwnProperty("maxRetry")))) { return; }
+					var req = {
+						requestUrl: function () {
+							var self = this;
+							try {
+								if (args.currRetry > args.maxRetry) {
+									if(args.type === "session") {
+										logMessage("info", "Max retry reached for sending session ping.")
+									}
+									if(args.type === "sync") {
+										logMessage("info", "Max retry reached for sending sync ping: " + args.url);
+									}
+									done && done();
+								} else {
+									self.sendUrlRequest(args.url);
+								}// if-else
+							} catch (err) {
+								logMessage("error", "Error in fireToUrl requestUrl. " + err)
+								done && done();
+							}
+						},
+						sendUrlRequest: function (url) {
+							var self = this;
+							var isSyncPing = args.type === "sync";
+								try {
+									if (typeof url === "undefined") { return; }
+									var img = new Image();
+									img.onerror = function (evt) {
+										if(isSyncPing) {
+											logMessage("debug", "Retrying to send ping: " + url + ". Retry count #" + args.currRetry);
+										}
+										args.currRetry++;
+										window.setTimeout(function () { self.requestUrl(); }, args.retryDelay);
+									};
+									img.onload = function (evt) {
+										if(isSyncPing) {
+											syncPingArr.push(url); // Keep reference of the sync pings that have already went out
+										}
+										done && done();
+									};
+									if(args.type === "session") {
+										img.src = url + "&retry=" + args.currRetry;
+									}
+									if(isSyncPing && syncPingArr.indexOf(url) === -1) {
+										img.src = url;
+									}
+								} catch (err) {
+									logMessage("error", "Error in fireToUrl sendUrlRequest. " + err);
+									done && done();
+								}
+						}
+					};
+					req.requestUrl();
+				}
+				// BRWRSDK-16480 - support for sending sync pings (remove before pushing to prod)
+				function sendSyncPing(cookieName, urls, retryObj) {
+					var cookieVal = _cookie.get(cookieName);
+					try {
+						if(cookieVal) {
+							var pingsToSend = urls.map(function(url){ return url.replace("|!nol_imrid!|", cookieVal) });
+							pingsToSend.forEach(function(ping) { return fireToUrl({ url: ping, type: "sync", currRetry: 1, maxRetry: 5, retryDelay: 5000 }) });
+						} else {
+							if(retryObj.currRetry > retryObj.maxRetry) {
+								logMessage("info", "Max retry reached for fetching cookie.")
+								return;
+							}
+							retryObj.currRetry++;
+							window.setTimeout(function() { sendSyncPing(cookieName, urls, retryObj); }, retryObj.retryDelay);
+						}
+					} catch (err) {
+						logMessage("error", "Error in sendSyncPing. " + err);
+					}
+				}
+
+				/* Using the below call to send the request via a masked url (imrworldwide) */
+				function sendRequest(url) {
+					if (!url) return;
+					var img = new Image();
+					img.onerror = function (e) {/*console.log("Error is: ", e);*/ };
+					img.onload = function (e) {/*console.log("All successful");*/ };
+					img.src = url;
+				}
+
+				function onStorage(evt) {
+					try {
+
+						var data = evt.newValue;
+						if (postMsgAvail) {
+							// changed the postMessage parameter to be the full evt object as previously the string values were getting sent and this was causing conflicts with v60 as it accepts
+							// anything that is a string from imrworldwide.com and sets it as the id. This change should not affect anything as there isn't really any feature that makes use of
+							// this postMessage callback for now. Eventually viewability would be. -BRWSRSDK - 1529
+							window.parent.postMessage({ nolSentFromLs: true, key: evt.key, type: "lsbroadcast", newValue: evt.newValue, oldValue: evt.oldValue }, (window.document.referrer ? window.document.referrer : "*"));
+
+							if (evt.key === "nol_lsid") {
+								// if lsid changed, broadcast the cookie out in case we"ve changed optout status
+								setTimeout(function () {
+									// post cookies to SDK
+									window.parent.postMessage({ nolSentFromLs: true, key: "cookieall", type: "cookieget", val: _cookie.all() }, (window.document.referrer ? window.document.referrer : "*"));
+
+								}, 2000);
+							}// if
+
+						}// if
+
+					} catch (e) {
+
+					}// try-catch
+				}
+			}(this))
+		</script>
+	
+</body></html>

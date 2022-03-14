@@ -1,0 +1,13 @@
+
+
+/{
+	virtual_uart: virtual_uart_100ask {
+		compatible = "100ask,virtual_uart";
+		
+		interrupt-parent = <&intc>;
+		interrupts = <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>;
+		
+	};
+	
+	
+};

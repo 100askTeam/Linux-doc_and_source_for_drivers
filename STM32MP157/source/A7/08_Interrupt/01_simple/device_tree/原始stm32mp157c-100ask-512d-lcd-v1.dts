@@ -1,0 +1,183 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
+/*
+* Copyright (C) 100ASK 2020 - All Rights Reserved
+* Author: 100ask
+* support: weidongshan@qq.com 
+*/
+
+/dts-v1/;
+
+#include "stm32mp157c-100ask-512d-v1.dts"
+
+/ {
+        model = "100ASK YA157C v2 www.100ask.com";
+        compatible = "st,stm32mp157c-100ask-512d-v1", "st,stm32mp157";
+
+
+    pinctrl_virt: virtual_pincontroller {
+        compatible = "100ask,virtual_pinctrl";
+        i2cgrp: i2cgrp {
+                functions = "i2c", "i2c";
+                groups = "pin0", "pin1";
+                configs = <0x11223344  0x55667788>;
+        };
+    };
+
+    virtual_i2c {
+        compatible = "100ask,virtual_i2c";
+        pinctrl-names = "default";
+        pinctrl-0 = <&i2cgrp>;
+    };
+
+
+gpio_virt: virtual_gpiocontroller {
+	compatible = "100ask,virtual_gpio";
+    gpio-controller;
+    #gpio-cells = <2>;
+    ngpios = <4>;
+    gpio-ranges = <&pinctrl_virt 0 0 4>; 
+};
+
+myled {
+	compatible = "100ask,leddrv";
+	led-gpios = <&gpio_virt 0 GPIO_ACTIVE_LOW>;
+};
+
+ 	i2c-bus-virtual {
+		 compatible = "100ask,i2c-bus-virtual";
+	};
+
+i2c_gpio_100ask {
+	compatible = "i2c-gpio";
+	gpios = <&gpioa 13 0 /* sda */
+		 &gpiod 8 0 /* scl */
+		>;
+	i2c-gpio,delay-us = <5>;	/* ~100 kHz */
+	#address-cells = <1>;
+	#size-cells = <0>;
+};
+
+	/*LCD Panel*/
+	panel {
+		compatible = "myir,070tft";
+        	interrupts = <11 IRQ_TYPE_EDGE_FALLING>;
+        	interrupt-parent = <&gpioe>;
+        	pinctrl-names = "default", "sleep";
+        	pinctrl-0 = <&ltdc_pins_a>;
+        	pinctrl-1 = <&ltdc_pins_sleep_a>;
+        	//reset-gpios = <&gpioe 12 GPIO_ACTIVE_LOW>;
+
+		backlight = <&panel_backlight>;
+       	 	status = "okay";
+		
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&ltdc_ep0_out>;			
+			};
+	
+		};
+	};
+};
+
+&spi5 {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&spi5_pins_a>;
+        pinctrl-1 = <&spi5_sleep_pins_a>;
+        status = "okay";
+        cs-gpios = <&gpioh 5 GPIO_ACTIVE_LOW>;
+        spidev: icm20608@0{
+                compatible = "invensense,icm20608";
+                interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
+                interrupt-parent = <&gpioz>;
+                spi-max-frequency = <8000000>;
+                reg = <0>;
+        };
+};
+
+/* test HDMI*/
+&ltdc {
+    status = "okay";
+    port {
+       #address-cells = <1>;
+       #size-cells = <0>;
+
+	ltdc_ep1_out: endpoint@1 {
+       		reg = <1>;
+        	remote-endpoint = <&sii9022_in>;
+        };
+   };
+};
+
+&i2c1 {
+		ap3216c@1e {
+			compatible = "lite-on,ap3216c";
+			reg = <0x1e>;
+		};
+};
+
+/*HDMI*/
+&i2c4 {
+        clock-frequency = <100000>;
+       hdmi-transmitter@40 { // use a dummy device
+                compatible = "sil,sii9022";
+                reg = <0x40>;
+                reset-gpios = <&gpiob 10 GPIO_ACTIVE_LOW>;
+                interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+                interrupt-parent = <&gpiob>;
+                //pinctrl-names = "default", "sleep";
+                //pinctrl-0 = <&ltdc_pins_a>;
+                //pinctrl-1 = <&ltdc_pins_sleep_a>;
+                status = "disabled";
+
+                ports {
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+
+                        port@0 {
+                                reg = <0>;
+                                sii9022_in: endpoint {
+                                        remote-endpoint = <&ltdc_ep1_out>;
+                                };
+                        };
+
+                };
+        };
+
+#if 1
+	sii902x: sii902x@39 {
+              compatible = "SiI,sii902x";
+              reset-gpios = <&gpiob 10 GPIO_ACTIVE_LOW>;
+              //pinctrl-names = "default";
+              //pinctrl-0 = <&pinctrl_sii902x>;
+              interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+              interrupt-parent = <&gpiob>;
+              mode_str ="1280x720M@60";
+              bits-per-pixel = <16>;
+              reg = <0x39>;
+              status = "okay";
+
+	};
+#endif
+};
+
+&i2s2 {
+	status = "disable";
+
+};
+
+/*test LCD*/
+&ltdc {
+        status = "okay";
+
+        port {
+                #address-cells = <1>;
+                #size-cells = <0>;
+
+                ltdc_ep0_out: endpoint@0 {
+                                reg = <0>;
+                                remote-endpoint = <&panel_in>;
+                                };
+           };
+};
+
+

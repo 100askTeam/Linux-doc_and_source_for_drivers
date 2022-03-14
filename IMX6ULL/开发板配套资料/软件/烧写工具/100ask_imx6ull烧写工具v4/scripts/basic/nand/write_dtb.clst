@@ -1,0 +1,6 @@
+uuu_version 1.2.39
+FB: ucmd setenv fastboot_buffer 0x80200000
+FB: download  -f  ../../../files/100ask_myir_imx6ull_mini.dtb
+FB: ucmd  nand erase.part  dtb 
+FB: ucmd  nand write ${fastboot_buffer}  0xe00000   ${fastboot_bytes}
+FB: Done

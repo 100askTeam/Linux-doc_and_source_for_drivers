@@ -1,0 +1,6 @@
+uuu_version 1.2.39
+FB: ucmd setenv fastboot_buffer 0x80200000
+FB: download  -f  ../../../files/zImage
+FB: ucmd  nand erase.part  kernel
+FB[-t 60000]: ucmd  nand write ${fastboot_buffer}  0x600000   ${fastboot_bytes}
+FB: done

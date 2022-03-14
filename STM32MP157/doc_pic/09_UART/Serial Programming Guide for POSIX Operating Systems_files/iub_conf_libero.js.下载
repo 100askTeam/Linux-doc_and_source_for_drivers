@@ -1,0 +1,39 @@
+var _iub=_iub||[];_iub.csConfiguration={perPurposeConsent:true,consentOnDocument:true,enableCMP:true,googleAdditionalConsentMode:false,isTCFConsentGlobal:false,newConsentAtVendorListUpdate:30,whitelabel:true,lang:"it",siteId:2035396,cookiePolicyInOtherWindow:true,cookiePolicyId:25708360,cookiePolicyUrl:"https://privacy.italiaonline.it/common/cookie/privacy_detail.php",
+    "banner": {
+        "position": "float-center",
+        /* 'backgroundOverlay': true, */
+        "html": "<div class='iubenda-cs-container' style='visibility:hidden!important'>"+
+                    "<div class='iubenda-cs-content'>" +
+                        "<div class='ubl-cst'>" +
+                            "<div class='ubl-cst__head'>"+
+                                "<img src='https://i.plug.it/cmp/logo_s/libero.svg' class='ubl-cst__lgo'/>"+
+                            "</div>"+
+                            "<div class='ubl-cst__cnt'>"+
+                                "%{banner_content}"+
+                            "</div>"+
+                            "<button class='iubenda-cs-close-btn'>"+
+                                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='ubl-cst__svg'>"+
+                                    "<path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/>"+
+                                "</svg>"+
+                            "</button>"+
+                            "<div class='ubl-cst__btns'>"+
+                                "<button class='ubl-cst__btn iubenda-cs-customize-btn iubenda-cs-accept-btn'>Accetta</button>"+
+                                "<button class='ubl-cst__btn iubenda-cs-customize-btn iubenda-advertising-preferences-link'>Scopri di pi&ugrave; e personalizza</button>"+
+                            "</div>"+
+                        "</div>"+
+                    "</div>"+
+                "</div>"
+    },
+    "callback": {
+        onBannerShown: function() {
+            var link = document.createElement('link');
+            link.setAttribute('rel', 'stylesheet');
+            link.setAttribute('type', 'text/css');
+            link.setAttribute('href', 'https://i.plug.it/cmp/pp/iub_conf_libero.css');
+            link.addEventListener('load', function() {
+                document.querySelector('.iubenda-cs-container').removeAttribute('style');
+            });
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
+    }
+};

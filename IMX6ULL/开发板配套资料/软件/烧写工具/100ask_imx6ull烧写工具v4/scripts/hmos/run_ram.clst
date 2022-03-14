@@ -1,0 +1,8 @@
+uuu_version 1.2.39
+FB:  download  -f  ../../files/rootfs.jffs2
+FB[-t 60000]: ucmd mw.l 98000000 ffffffff 1000000
+FB[-t 60000]: ucmd cp.b ${fastboot_buffer} 98000000 ${fastboot_bytes}
+FB:  download  -f  ../../files/liteos.bin
+FB[-t 60000]: ucmd  cp.b  ${fastboot_buffer}  81000000   ${fastboot_bytes}
+FB[-t 60000]: ucmd  go 81000000
+FB: Done
